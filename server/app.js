@@ -1,14 +1,26 @@
+import "dotenv/config";
+
 import express from "express";
 const app = express();
 
 app.use(express.json());
 
-import authenticationRouter from "./routes/authRouter.js"
-app.use(authenticationRouter)
+import session from "express-session";
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
+
+import authenticationRouter from "./routes/authRouter.js";
+app.use(authenticationRouter);
 
 app.get("/", (req, res) => {
-    res.send({data:"velkommen"})
-})
+  res.send({ data: "velkommen" });
+});
 
 /* import path from "path";
 app.use(express.static(path.resolve('../client/dist'))) */
