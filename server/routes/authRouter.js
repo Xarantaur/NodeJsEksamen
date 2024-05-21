@@ -4,17 +4,17 @@ import createUser from "../database/create.js";
 import { hashPassword, comparePassword } from "../util/passwordUtil.js";
 const router = Router();
 
-/* -----------------------Doorman for sessions--------------------------------- */
-function doorman(req, res, next) {
-  if (!req.session.user) {
-    console.log("ingen aktiv session"); // husk at slette
-    res.redirect("http://localhost:8080/"); // skal omdirigere til login page.
-  } else {
-    console.log("du bliver omdirigeret"); // hust at slette
+/* ---------------------check isAdmin---------------------- */
+function isAdmin(req, res, next) {
+  if(req.session.user.role === "admin") {
     next();
+  } else {
+    console.log(`${req.session.user.email} is not an admin`);
+    res.redirect("http://localhost:8080/");
   }
 }
 
+/* --------------------------------login functionality---------------------------- */
 async function login(email, plainTextPassword) {
   const user = await findUser(email);
 
@@ -63,20 +63,8 @@ router.post("/api/login", async (req, res) => {
   }
 });
 
-//---------SESSION stuff :------------------------TO be changed to route with actual route --------------------- and remove dummy mail
-router.get("/auth/user", async (req, res) => {
-  const email = req.query.user ?? "dummy@mail.dk";
-  if (email) {
-    req.session.user = {
-      email: email,
-      role: "user",
-    };
-    res.send({ Message: `${req.session.user.email} is stored in the session as a ${req.session.user.role}` });
-  }
-});
-
-router.get("/auth/session", doorman, (req, res) => {
-  res.send({ email: req.session.user.email, user: req.session.user });
+router.get("/auth/adminsonly", isAdmin, (req, res) => {
+  res.send({ data: "you can only get in here if you are a admin" });
 });
 
 export default router;
