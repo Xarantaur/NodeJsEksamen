@@ -18,6 +18,9 @@ app.use(
 import authenticationRouter from "./routes/authRouter.js";
 app.use(authenticationRouter);
 
+import userRouter from "./routes/userRouter.js"
+app.use(userRouter)
+
 app.get("/", (req, res) => {
   res.send({ data: "velkommen" });
 });

@@ -1,5 +1,8 @@
-import db from "./connection.js"
+import db from "./connection.js";
 
-const deleteMany = await db.users.deleteMany({ /* indsæt kritere der søges efter. e.g. "name: "twister"" */});
+ const deleteUser = async (email) => {
+  const user = await db.users.deleteOne({ email: email });
+  return user
+};
 
-console.log(deleteMany)
+export default deleteUser

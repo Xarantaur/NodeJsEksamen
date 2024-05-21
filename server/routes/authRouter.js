@@ -1,7 +1,7 @@
 import { Router } from "express";
 import findUser from "../database/read.js";
-/* import createUser from "../database/create.js" */
-import { comparePassword } from "../util/passwordUtil.js";
+import createUser from "../database/create.js";
+import { hashPassword, comparePassword } from "../util/passwordUtil.js";
 const router = Router();
 
 /* -----------------------Doorman for sessions--------------------------------- */
@@ -21,8 +21,6 @@ async function login(email, plainTextPassword) {
   if (!user) {
     return "invalid user";
   }
-  /* -----------------------------------------husk at gøre det her pænt og håndter errors for toaster */
-  /* const isSame = await bcrypt.compare(plainTextPassword, user.password); */
   comparePassword(plainTextPassword, user);
   if (!comparePassword) {
     console.log("Incorrect Email or password");
@@ -31,22 +29,37 @@ async function login(email, plainTextPassword) {
     return true;
   }
 }
+/* -------------------------------signup route here-------------------------------- */
+router.post("/api/signup", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email) {
+    res.status(400).send({ data: "Missing Email" });
+  }
+
+  if (!password) {
+    res.status(400).send({ data: "Missing Password" });
+  }
+  let hashedPassword = await hashPassword(password);
+  await createUser(email, hashedPassword);
+  res.send({ data: "user created successfully" });
+});
 
 /* ----------------------------login route here----------------------------------- */
 router.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    res.status(400).send({ data: "Missing email " });
+    res.status(400).send({ data: "Missing Email" });
   }
 
   if (!password) {
-    res.status(400).send({ data: "Missing password " });
+    res.status(400).send({ data: "Missing Password" });
   }
 
   const result = await login(email, password);
   if (result) {
-    res.send({ data: true });
+    res.send({ data: result });
   }
 });
 

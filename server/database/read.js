@@ -10,5 +10,3 @@ const findUser = async (email) => {
 };
 
 export default findUser
-
-/* console.log(allUnits) */
