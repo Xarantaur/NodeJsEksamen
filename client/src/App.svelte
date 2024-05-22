@@ -3,6 +3,7 @@
   import Home from "./pages/Home/Home.svelte";
   import Drinks from "./pages/Drinks/Drinks.svelte";
   import Login from "./pages/Login/Login.svelte"
+  import Signup from "./pages/Signup/Signup.svelte"
   import NavBar from "./components/NavBar.svelte";
 </script>
 
@@ -17,6 +18,9 @@
     </Route>
     <Route path="/login">
       <Login />
+    </Route>
+    <Route path="/signup">
+      <Signup />
     </Route>
   </div>
 </Router>

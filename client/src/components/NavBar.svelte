@@ -66,7 +66,9 @@
       <Link to="/drinks" activeClassName="active">Drinks</Link>
     </div>
     <div class="auth-buttons">
-      <button>Login</button>
-      <button>Signup</button>
+      <Link to="/login">
+      <button>Login</button></Link>
+      <Link to="/signup">
+      <button>Signup</button></Link>
     </div>
   </nav>
