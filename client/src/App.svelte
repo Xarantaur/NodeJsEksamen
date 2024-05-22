@@ -2,6 +2,7 @@
   import { Router, Route } from "svelte-navigator";
   import Home from "./pages/Home/Home.svelte";
   import Drinks from "./pages/Drinks/Drinks.svelte";
+  import Login from "./pages/Login/Login.svelte"
   import NavBar from "./components/NavBar.svelte";
 </script>
 
@@ -13,6 +14,9 @@
     </Route>
     <Route path="/drinks">
       <Drinks/>
+    </Route>
+    <Route path="/login">
+      <Login />
     </Route>
   </div>
 </Router>

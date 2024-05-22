@@ -25,6 +25,7 @@
     "test": ""
   },
   "dependencies": {
-    "mongodb": "^6.6.1"
+    "mongodb": "^6.6.1",
+    "svelte-navigator": "^3.2.2"
   }
 }
