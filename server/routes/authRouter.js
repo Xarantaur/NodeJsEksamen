@@ -18,14 +18,13 @@ function isAdmin(req, res, next) {
 async function login(email, plainTextPassword) {
   const user = await findUser(email);
   if (!user) {
-    return "invalid user";
+    return null;
   }
   const passCheck = await comparePassword(plainTextPassword, user);
   if (!passCheck) {
-    console.log("Incorrect Email or password");
-    return "Wrong Email or Password"
+    return "Wrong Email or Password";
   } else {
-    return user.email;
+    return true;
   }
 }
 /* -------------------------------signup route here-------------------------------- */
@@ -43,9 +42,9 @@ router.post("/api/signup", async (req, res) => {
     let hashedPassword = await hashPassword(password);
     const newUser = await createUser(email, hashedPassword);
     req.session.user = {
-      email: newUser.email
-    }
-    console.log(req.session.user.email)
+      email: newUser.email,
+    };
+    console.log(req.session.user.email);
     res.send({ data: "user created successfully" });
   } catch (error) {
     if (error.code === 11000) {
@@ -59,15 +58,23 @@ router.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    res.status(400).send({ data: "Missing Email" });
+    console.log("no email")
+    return res.status(400).send({ data: "Missing Email" });
   }
 
   if (!password) {
-    res.status(400).send({ data: "Missing Password" });
+    console.log("no password")
+    return res.status(400).send({ data: "Missing Password" });
+    
   }
 
   const result = await login(email, password);
-  if (result) {
+  if (!result) {
+    res.send({ data: "incorrect Email or Password" });
+  } else {
+    req.session.user = {
+      email: email,
+    };
     res.send({ data: result });
   }
 });

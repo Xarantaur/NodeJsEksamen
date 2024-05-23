@@ -4,17 +4,6 @@ import { BASE_URL } from "../../stores/generalStore.js"
 import { fetchPost } from "../../util/api.js";
 import  toast, { Toaster } from "svelte-french-toast"
 
-
-function toastToSucces(){
-    toast.success("Successfully Signed up")
-}
-function toastMisMatch(){
-    toast.error("password don't match")
-}
-function toastDubEmail(){
-    toast.error("Email Already Exists")
-}
-
 let email;
 let password;
 let confirmPassword;
@@ -24,7 +13,7 @@ let confirmPassword;
 async function handleSignUp(event){
     event.preventDefault();
     if(password !== confirmPassword){
-        toastMisMatch()
+        toast.error("Password's Doesn't Match")
         return;
     }
     const bodyElements ={
@@ -33,11 +22,11 @@ async function handleSignUp(event){
     }
     const result = await fetchPost($BASE_URL + "/api/signup", bodyElements)
     if(result.data === "user created successfully"){
-        toastToSucces()
+      toast.success("Successfully Signed up")
         await new Promise(resolve => setTimeout(resolve, 1000)); // ikke elegant eller effektivt. // ændre dette eller slet helt
         navigate("/profileSetup")
     } else if(result.data === "Email already exists") {
-        toastDubEmail()
+      toast.error("Email Already Exists")
     } else {
         return
     }
