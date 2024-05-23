@@ -5,6 +5,7 @@
   import Login from "./pages/Login/Login.svelte"
   import Signup from "./pages/Signup/Signup.svelte"
   import NavBar from "./components/NavBar.svelte";
+  import ProfileSetup from "./pages/ProfileSetup/ProfileSetup.svelte";
 </script>
 
 <Router>
@@ -21,6 +22,9 @@
     </Route>
     <Route path="/signup">
       <Signup />
+    </Route>
+    <Route path="/profileSetup">
+      <ProfileSetup />
     </Route>
   </div>
 </Router>

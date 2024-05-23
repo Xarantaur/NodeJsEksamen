@@ -1,5 +1,9 @@
 import db from "./connection.js" 
 
-const update = await db.users.updateOne({ /* søge kritere for hvad der skal opdateres e.g. {name: "twister" }, og så de værdier der skal ændres : { $set: { price: 12}} */})
+const updateUser = async (email, username, age) => {
+    const user = await db.users.updateOne({ email: email}, { $set: { username: username, age: age}})
+    console.log(user)
+    return user
+}
 
-console.log(update)
+export default updateUser

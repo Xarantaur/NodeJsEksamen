@@ -1,9 +1,21 @@
 import { Router } from "express";
+import updateUser from "../database/update.js"
 import deleteUser  from "../database/delete.js";
 
 const router = Router();
 
 router.patch("/api/users", async (req, res) => {
+  const { email } = req.session.user
+  const { username, age } = req.body;
+  if (!username) {
+    res.status(400).send({ data: "Missing Username" });
+  }
+
+  if (!age) {
+    res.status(400).send({ data: "Missing Age" });
+  }
+
+  await updateUser(email, username, age)
   res.send({ data: "User information updated" });
 });
 

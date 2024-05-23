@@ -42,7 +42,11 @@ router.post("/api/signup", async (req, res) => {
   }
   try {
     let hashedPassword = await hashPassword(password);
-    await createUser(email, hashedPassword);
+    const newUser = await createUser(email, hashedPassword);
+    req.session.user = {
+      email: newUser.email
+    }
+    console.log(req.session.user.email)
     res.send({ data: "user created successfully" });
   } catch (error) {
     if (error.code === 11000) {

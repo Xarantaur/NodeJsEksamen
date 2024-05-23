@@ -24,5 +24,18 @@ export function fetchPost(url, body) {
     })
     .then((response) => response.json())
     .then((result) => {return result})
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error))
+}
+export function fetchPatch(url, body) {
+    return fetch(url, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+            "content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    })
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.error(error))
 }

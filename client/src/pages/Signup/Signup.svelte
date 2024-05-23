@@ -31,20 +31,16 @@ async function handleSignUp(event){
         email: email,
         password: password
     }
-    
     const result = await fetchPost($BASE_URL + "/api/signup", bodyElements)
     if(result.data === "user created successfully"){
         toastToSucces()
         await new Promise(resolve => setTimeout(resolve, 1000)); // ikke elegant eller effektivt. // ændre dette eller slet helt
-        navigate("/login")
+        navigate("/profileSetup")
     } else if(result.data === "Email already exists") {
         toastDubEmail()
     } else {
         return
     }
-    
-   
-
 }
 </script>
 <Toaster />
@@ -57,8 +53,6 @@ async function handleSignUp(event){
         <input type="submit" value="signup">
       </form>
 </div>
-
-<!-- <button  on:click={toastToSucces}>test Toast</button> -->
 
 <style>
     .container {
