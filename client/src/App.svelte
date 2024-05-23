@@ -3,6 +3,7 @@
   import Home from "./pages/Home/Home.svelte";
   import Drinks from "./pages/Drinks/Drinks.svelte";
   import NavBar from "./components/NavBar.svelte";
+  import Chat from "./pages/Chat/Chat.svelte"
 </script>
 
 <Router>
@@ -13,6 +14,9 @@
     </Route>
     <Route path="/drinks">
       <Drinks/>
+    </Route>
+    <Route path="/chat">
+        <Chat/>
     </Route>
   </div>
 </Router>

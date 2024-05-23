@@ -27,7 +27,8 @@
   
     .nav-links {
       display: flex;
-      gap: 20px;
+      gap: 30px;
+      margin-left: 50px;
     }
   
     .auth-buttons {
@@ -35,15 +36,6 @@
       gap: 10px;
     }
   
-    a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  
-    .active {
-      text-decoration: underline;
-    }
   
     button {
       background-color: #555;
@@ -64,6 +56,7 @@
     <div class="nav-links">
       <Link to="/" activeClassName="active">Home</Link>
       <Link to="/drinks" activeClassName="active">Drinks</Link>
+      <Link to="/chat" activeClassName="active">Chat</Link>
     </div>
     <div class="auth-buttons">
       <button>Login</button>
