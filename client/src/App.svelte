@@ -6,6 +6,12 @@
   import Signup from "./pages/Signup/Signup.svelte"
   import NavBar from "./components/NavBar.svelte";
   import ProfileSetup from "./pages/ProfileSetup/ProfileSetup.svelte";
+  import { onMount } from "svelte";
+  import { session, loadSession } from "./stores/sessionStore.js"
+
+  onMount(() => {
+    loadSession();
+  })
 </script>
 
 <Router>

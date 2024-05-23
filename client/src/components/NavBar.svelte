@@ -1,5 +1,15 @@
 <script>
     import { Link } from "svelte-navigator";
+    import { session } from "../stores/sessionStore.js";
+    import { navigate } from "svelte-navigator";
+
+    function handleLogout(){
+
+      session.set(null);
+      console.log($session)
+      navigate("/login");
+
+    }
   </script>
   
   <style>
@@ -65,10 +75,14 @@
       <Link to="/" >Home</Link>
       <Link to="/drinks">Drinks</Link>
     </div>
+    {#if $session}
     <div class="auth-buttons">
-      <Link to="/login">
-      <button>Login</button></Link>
-      <Link to="/signup">
-      <button>Signup</button></Link>
+      <button on:click={handleLogout}>Logout</button>
     </div>
+  {:else}
+    <div class="auth-buttons">
+      <Link to="/login">Login</Link>
+      <Link to="/signup">Signup</Link>
+    </div>
+  {/if}
   </nav>

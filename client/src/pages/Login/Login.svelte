@@ -3,6 +3,7 @@
     import { BASE_URL } from "../../stores/generalStore.js"
     import { fetchPost } from "../../util/api.js"
     import toast, {Toaster } from "svelte-french-toast"
+  import { loadSession } from "../../stores/sessionStore.js";
 
     let email;
     let password;
@@ -17,6 +18,7 @@
         
         const result = await fetchPost($BASE_URL + "/api/login", bodyElements)
         if(result.data === true){
+          await loadSession();
           navigate("/home")
         } else {
           toast.error("Incorrect Email or Password")

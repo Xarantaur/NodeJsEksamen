@@ -11,35 +11,10 @@ function doorman(req, res, next) {
     }
   }
 
-router.get("/auth/user", async (req, res) => {
-    const email = req.query.user /* ?? "dummy@mail.dk"; */
-    if (email) {
-      req.session.user = {
-        email: email,
-        role: "user",
-      };
-      res.send({ Message: `${req.session.user.email} is stored in the session as a ${req.session.user.role}` });
-    }
-  });
+router.get("/api/session", (req, res) => {
+  console.log("Session data:", req.session);
+  res.send({ data:  { user: req.session.user || null } })
+});
 
-router.get("/auth/admin", async (req, res) => {
-    const email = req.query.user /* ?? "dummy@mail.dk"; */
-    if (email) {
-      req.session.user = {
-        email: email,
-        role: "admin",
-      };
-      res.send({ Message: `${req.session.user.email} is stored in the session as a ${req.session.user.role}` });
-    }
-  });
-  
-  router.get("/auth/session", doorman, (req, res) => {
-    res.send({ email: req.session.user.email, user: req.session.user, admin: req.isAdmin });
-  });
-
-  router.get("/auth/getinhere", doorman, (req, res) => {
-    res.send({ data: "you can only get in here if there is a session active"})
-  })
-  
   export default router;
   

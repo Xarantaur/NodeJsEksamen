@@ -3,6 +3,7 @@ import { navigate } from "svelte-navigator";
 import { BASE_URL } from "../../stores/generalStore.js"
 import { fetchPost } from "../../util/api.js";
 import  toast, { Toaster } from "svelte-french-toast"
+  import { loadSession } from "../../stores/sessionStore.js";
 
 let email;
 let password;
@@ -23,6 +24,7 @@ async function handleSignUp(event){
     const result = await fetchPost($BASE_URL + "/api/signup", bodyElements)
     if(result.data === "user created successfully"){
       toast.success("Successfully Signed up")
+        await loadSession();
         await new Promise(resolve => setTimeout(resolve, 1000)); // ikke elegant eller effektivt. // ændre dette eller slet helt
         navigate("/profileSetup")
     } else if(result.data === "Email already exists") {
