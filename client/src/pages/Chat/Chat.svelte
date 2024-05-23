@@ -1,10 +1,28 @@
 <script>
+    import { onMount } from "svelte";
+    import io from "socket.io-client"
 
     let messages = [];
     let message = '';
+    let socket;
+
+    onMount(() => {
+      socket = io('localhost:8080'); 
+
+      socket.on('chat message', (msg) => {
+        messages = [...messages, msg];
+      });
+
+      return () => {
+        socket.disconnect();
+      };
+  });
 
     function sendMessage() {
-        console.log("Hello");
+      if (message.trim()) {
+        socket.emit('chat message', message);
+        message = '';
+      }
     }
 
 </script>
