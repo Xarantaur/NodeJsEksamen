@@ -17,16 +17,15 @@ function isAdmin(req, res, next) {
 /* --------------------------------login functionality---------------------------- */
 async function login(email, plainTextPassword) {
   const user = await findUser(email);
-
   if (!user) {
     return "invalid user";
   }
-  comparePassword(plainTextPassword, user);
-  if (!comparePassword) {
+  const passCheck = await comparePassword(plainTextPassword, user);
+  if (!passCheck) {
     console.log("Incorrect Email or password");
+    return "Wrong Email or Password"
   } else {
-    console.log("auth success");
-    return true;
+    return user.email;
   }
 }
 /* -------------------------------signup route here-------------------------------- */
@@ -50,7 +49,6 @@ router.post("/api/signup", async (req, res) => {
     res.send({ data: "user created successfully" });
   } catch (error) {
     if (error.code === 11000) {
-      // Duplicate key error
       return res.status(400).send({ data: "Email already exists" });
     }
   }
