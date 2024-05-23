@@ -6,7 +6,7 @@ const router = Router();
 
 /* ---------------------check isAdmin---------------------- */
 function isAdmin(req, res, next) {
-  if(req.session.user.role === "admin") {
+  if (req.session.user.role === "admin") {
     next();
   } else {
     console.log(`${req.session.user.email} is not an admin`);
@@ -40,9 +40,16 @@ router.post("/api/signup", async (req, res) => {
   if (!password) {
     res.status(400).send({ data: "Missing Password" });
   }
-  let hashedPassword = await hashPassword(password);
-  await createUser(email, hashedPassword);
-  res.send({ data: "user created successfully" });
+  try {
+    let hashedPassword = await hashPassword(password);
+    await createUser(email, hashedPassword);
+    res.send({ data: "user created successfully" });
+  } catch (error) {
+    if (error.code === 11000) {
+      // Duplicate key error
+      return res.status(400).send({ data: "Email already exists" });
+    }
+  }
 });
 
 /* ----------------------------login route here----------------------------------- */

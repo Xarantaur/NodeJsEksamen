@@ -16,7 +16,10 @@
   },
   "dependencies": {
     "husky": "^9.0.11",
+    "i": "^0.3.7",
     "is-ci": "^3.0.1",
+    "npm": "^10.8.0",
+    "svelte-french-toast": "^1.2.0",
     "svelte-navigator": "^3.2.2"
   }
 }

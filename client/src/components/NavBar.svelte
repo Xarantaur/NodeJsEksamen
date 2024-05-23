@@ -62,8 +62,8 @@
   <nav>
     <div class="logo">Logo</div>
     <div class="nav-links">
-      <Link to="/" activeClassName="active">Home</Link>
-      <Link to="/drinks" activeClassName="active">Drinks</Link>
+      <Link to="/" >Home</Link>
+      <Link to="/drinks">Drinks</Link>
     </div>
     <div class="auth-buttons">
       <Link to="/login">
