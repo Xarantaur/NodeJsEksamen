@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { fetchGet } from "../util/api.js";
+import { fetchSession } from "../util/api.js";
 import { BASE_URL } from "../stores/generalStore.js";
 import { get } from "svelte/store";
 
@@ -9,9 +9,9 @@ export async function loadSession() {
   try {
     const baseUrl = get(BASE_URL);
   
-    const response = await fetchGet(`${baseUrl}/api/session`);
+    const response = await fetchSession(`${baseUrl}/api/session`);
     console.log(`Session response: `, response);
-    if(response && response.user){
+    if(response){
     session.set(response.user)}
   } catch (error) {
     console.error("Failed to load session:", error);

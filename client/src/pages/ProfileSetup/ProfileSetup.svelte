@@ -3,17 +3,13 @@
     import { BASE_URL } from "../../stores/generalStore";
     import { fetchPatch } from "../../util/api";
     import toast, { Toaster } from "svelte-french-toast";
+  import { loadSession } from "../../stores/sessionStore";
   
     let username;
     let age;
   
     async function handleProfileSetup(event) {
       event.preventDefault();
-  
-      /* if (!username || !age) {
-        toast.error("username and age are required");
-        return;
-      } */
   
       const bodyElements = { 
         username: username,
@@ -24,6 +20,7 @@
         const response = await fetchPatch($BASE_URL + "/api/users", bodyElements);
         if (response.data === "User information updated") {
           toast.success("User updated successfully");
+          await loadSession();
           navigate("/home");
         } else {
           toast.error(response.data || "Failed to update profile");

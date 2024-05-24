@@ -2,16 +2,26 @@
     import { Link } from "svelte-navigator";
     import { session } from "../stores/sessionStore.js";
     import { navigate } from "svelte-navigator";
+    import { BASE_URL } from "../stores/generalStore.js"
+    import { fetchPost } from "../util/api.js";
+    import toast,{ Toaster } from "svelte-french-toast";
 
-    function handleLogout(){
+    async function handleLogout(){
 
-      session.set(null);
-      console.log($session)
-      navigate("/login");
-
+      const response = await fetchPost($BASE_URL + "/api/logout")
+      if(response.data === "Logout Succesful"){
+        toast.success("Logout Succesful");
+        session.set(null);
+        navigate("/login")
+      }else {
+        toast.error(response.data ?? "Failed to Logout")
+      }
     }
+
   </script>
   
+  <Toaster />
+
   <style>
     nav {
       display: flex;
@@ -45,8 +55,17 @@
       display: flex;
       gap: 10px;
     }
-  
-  
+    .session-username{
+      background-color: #555;
+        color: rgb(0, 255, 0);
+        border: none;
+        border-radius: 8px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none; /* Remove underline from link */
+        display: inline-block; /* Ensure the link behaves like a button */
+    }
     button {
       background-color: #555;
       color: white;
@@ -70,6 +89,8 @@
     </div>
     {#if $session}
     <div class="auth-buttons">
+      <div class="session-username">
+      <Link to="/profile" style="color: rgb(0, 255, 0);">{$session.username}</Link></div>
       <button on:click={handleLogout}>Logout</button>
     </div>
   {:else}
