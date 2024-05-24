@@ -41,3 +41,17 @@ export function fetchPatch(url, body) {
     .then((result) => result)
     .catch((error) => console.error(error));
 }
+
+export async function fetchSession(url) {
+  let user;
+  try {
+    const response = await fetch(url, {
+      credentials: "include",
+    });
+    const result = await response.json();
+    user = result.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return user;
+}

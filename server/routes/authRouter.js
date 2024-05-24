@@ -13,6 +13,7 @@ function isAdmin(req, res, next) {
     res.redirect("http://localhost:8080/");
   }
 }
+  
 
 /* --------------------------------login functionality---------------------------- */
 async function login(email, plainTextPassword) {
@@ -24,7 +25,7 @@ async function login(email, plainTextPassword) {
   if (!passCheck) {
     return "Wrong Email or Password";
   } else {
-    return true;
+    return user;
   }
 }
 /* -------------------------------signup route here-------------------------------- */
@@ -66,14 +67,17 @@ router.post("/api/login", async (req, res) => {
     return res.status(400).send({ data: "Missing Password" });
   }
 
-  const result = await login(email, password);
-  if (!result) {
+  const user = await login(email, password);
+
+  if(!user) {
     res.send({ data: "incorrect Email or Password" });
   } else {
     req.session.user = {
-      email: email,
+      email: user.email,
+      username: user.username,
+      role: user.role
     };
-    res.send({ data: result });
+    res.send({ data: true });
   }
 });
 

@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import io from "socket.io-client"
+    import { io } from "socket.io-client"
 
     let messages = [];
     let message = '';

@@ -1,36 +1,39 @@
-import { Router } from "express";
-import updateUser from "../database/update.js"
-import deleteUser  from "../database/delete.js";
+  import { Router } from "express";
+  import updateUser from "../database/update.js"
+  import deleteUser  from "../database/delete.js";
 
-const router = Router();
+  const router = Router();
 
-router.patch("/api/users", async (req, res) => {
-  const { email } = req.session.user
-  const { username, age } = req.body;
-  if (!username) {
-    res.status(400).send({ data: "Missing Username" });
-  }
+  router.patch("/api/users", async (req, res) => {
+    const { email } = req.session.user
+    const { username, age } = req.body;
+    if (!username) {
+      res.status(400).send({ data: "Missing Username" });
+    }
 
-  if (!age) {
-    res.status(400).send({ data: "Missing Age" });
-  }
+    if (!age) {
+      res.status(400).send({ data: "Missing Age" });
+    }
 
-  await updateUser(email, username, age)
-  res.send({ data: "User information updated" });
-});
+    await updateUser(email, username, age)
+    req.session.user.username = username;
 
-router.delete("/api/users/", async (req, res) => {
-  const { email } = req.body;
+    console.log(req.session.user)
+    res.send({ data: "User information updated" });
+  });
 
-  if (!email) {
-    res.status(400).send({ data: "Missing Email" });
-  }
+  router.delete("/api/users/", async (req, res) => {
+    const { email } = req.body;
 
-  const result = await deleteUser(email);
-  if (result.deletedCount === 0){
-    return res.status(404).send({data: "No User with that Email not found"})
-  }
-     res.send({ data: `${email} Deleted Successfully` });
-});
+    if (!email) {
+      res.status(400).send({ data: "Missing Email" });
+    }
 
-export default router
+    const result = await deleteUser(email);
+    if (result.deletedCount === 0){
+      return res.status(404).send({data: "No User with that Email not found"})
+    }
+      res.send({ data: `${email} Deleted Successfully` });
+  });
+
+  export default router

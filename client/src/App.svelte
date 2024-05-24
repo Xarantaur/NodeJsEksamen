@@ -6,6 +6,7 @@
   import Signup from "./pages/Signup/Signup.svelte"
   import NavBar from "./components/NavBar.svelte";
   import ProfileSetup from "./pages/ProfileSetup/ProfileSetup.svelte";
+  import Profile from "./pages/Profile/Profile.svelte";
   import { onMount } from "svelte";
   import { session, loadSession } from "./stores/sessionStore.js"
 
@@ -35,6 +36,9 @@
     </Route>
     <Route path="/chat">
         <Chat/>
+    </Route>
+    <Route path="/profile">
+        <Profile/>
     </Route>
   </div>
 </Router>

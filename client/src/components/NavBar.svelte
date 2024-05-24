@@ -55,8 +55,17 @@
       display: flex;
       gap: 10px;
     }
-  
-  
+    .session-username{
+      background-color: #555;
+        color: rgb(0, 255, 0);
+        border: none;
+        border-radius: 8px;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none; /* Remove underline from link */
+        display: inline-block; /* Ensure the link behaves like a button */
+    }
     button {
       background-color: #555;
       color: white;
@@ -80,6 +89,8 @@
     </div>
     {#if $session}
     <div class="auth-buttons">
+      <div class="session-username">
+      <Link to="/profile" style="color: rgb(0, 255, 0);">{$session.username}</Link></div>
       <button on:click={handleLogout}>Logout</button>
     </div>
   {:else}
