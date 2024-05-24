@@ -2,16 +2,26 @@
     import { Link } from "svelte-navigator";
     import { session } from "../stores/sessionStore.js";
     import { navigate } from "svelte-navigator";
+    import { BASE_URL } from "../stores/generalStore.js"
+    import { fetchPost } from "../util/api.js";
+    import toast,{ Toaster } from "svelte-french-toast";
 
-    function handleLogout(){
+    async function handleLogout(){
 
-      session.set(null);
-      console.log($session)
-      navigate("/login");
-
+      const response = await fetchPost($BASE_URL + "/api/logout")
+      if(response.data === "Logout Succesful"){
+        toast.success("Logout Succesful");
+        session.set(null);
+        navigate("/login")
+      }else {
+        toast.error(response.data ?? "Failed to Logout")
+      }
     }
+
   </script>
   
+  <Toaster />
+
   <style>
     nav {
       display: flex;

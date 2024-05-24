@@ -44,7 +44,6 @@ router.post("/api/signup", async (req, res) => {
     req.session.user = {
       email: newUser.email,
     };
-    console.log(req.session.user.email);
     res.send({ data: "user created successfully" });
   } catch (error) {
     if (error.code === 11000) {
@@ -58,14 +57,13 @@ router.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    console.log("no email")
+    console.log("no email");
     return res.status(400).send({ data: "Missing Email" });
   }
 
   if (!password) {
-    console.log("no password")
+    console.log("no password");
     return res.status(400).send({ data: "Missing Password" });
-    
   }
 
   const result = await login(email, password);
@@ -77,6 +75,20 @@ router.post("/api/login", async (req, res) => {
     };
     res.send({ data: result });
   }
+});
+
+router.post("/api/logout", (req, res) => {
+  if(req.session){
+  req.session.destroy((err) => {
+    if (err) {
+      res.send({ data: "Failed to Logout" });
+    }
+    res.clearCookie('connect.sid');
+    res.send({ data: "Logout Succesful" });
+  });
+} else {
+  return res.status(400).send({ data: "No active session to destroy" });
+}
 });
 
 router.get("/auth/adminsonly", isAdmin, (req, res) => {
