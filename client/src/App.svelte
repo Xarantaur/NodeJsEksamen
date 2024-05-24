@@ -12,6 +12,7 @@
   onMount(() => {
     loadSession();
   })
+  import Chat from "./pages/Chat/Chat.svelte"
 </script>
 
 <Router>
@@ -31,6 +32,9 @@
     </Route>
     <Route path="/profileSetup">
       <ProfileSetup />
+    </Route>
+    <Route path="/chat">
+        <Chat/>
     </Route>
   </div>
 </Router>
