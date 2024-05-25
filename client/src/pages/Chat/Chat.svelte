@@ -134,7 +134,7 @@
   }
 
   .message.other {
-    background-color: lightblue;
+    background-color: blue;
     align-self: flex-start; /* Align other users' messages to the left */
     text-align: left; /* Ensure text inside the bubble is aligned to the left */
   }
