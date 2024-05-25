@@ -2,6 +2,7 @@ import { Router } from "express";
 import findUser from "../database/read.js";
 import createUser from "../database/create.js";
 import { hashPassword, comparePassword } from "../util/passwordUtil.js";
+import { welcomeEmail } from "../util/resend.js";
 const router = Router();
 
 /* ---------------------check isAdmin---------------------- */
@@ -13,19 +14,21 @@ function isAdmin(req, res, next) {
     res.redirect("http://localhost:8080/");
   }
 }
-  
 
 /* --------------------------------login functionality---------------------------- */
 async function login(email, plainTextPassword) {
   const user = await findUser(email);
+  const { password } = user;
   if (!user) {
     return null;
-  }
-  const passCheck = await comparePassword(plainTextPassword, user);
-  if (!passCheck) {
-    return "Wrong Email or Password";
   } else {
-    return user;
+    const passCheck = await comparePassword(plainTextPassword, password);
+    if (passCheck === false) {
+      "Wrong Email or Password"
+      return null
+    }
+    if(passCheck === true){
+    return user;}
   }
 }
 /* -------------------------------signup route here-------------------------------- */
@@ -45,6 +48,7 @@ router.post("/api/signup", async (req, res) => {
     req.session.user = {
       email: newUser.email,
     };
+    await welcomeEmail(email);
     res.send({ data: "user created successfully" });
   } catch (error) {
     if (error.code === 11000) {
@@ -69,30 +73,29 @@ router.post("/api/login", async (req, res) => {
 
   const user = await login(email, password);
 
-  if(!user) {
+  if (!user) {
     res.send({ data: "incorrect Email or Password" });
   } else {
     req.session.user = {
       email: user.email,
       username: user.username,
-      role: user.role
     };
-    res.send({ data: true });
+    res.send({ data: true})
   }
 });
 
 router.post("/api/logout", (req, res) => {
-  if(req.session){
-  req.session.destroy((err) => {
-    if (err) {
-      res.send({ data: "Failed to Logout" });
-    }
-    res.clearCookie('connect.sid');
-    res.send({ data: "Logout Succesful" });
-  });
-} else {
-  return res.status(400).send({ data: "No active session to destroy" });
-}
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        res.send({ data: "Failed to Logout" });
+      }
+      res.clearCookie("connect.sid");
+      res.send({ data: "Logout Succesful" });
+    });
+  } else {
+    return res.status(400).send({ data: "No active session to destroy" });
+  }
 });
 
 router.get("/auth/adminsonly", isAdmin, (req, res) => {

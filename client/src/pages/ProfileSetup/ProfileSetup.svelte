@@ -17,13 +17,13 @@
     };
   
       try {
-        const response = await fetchPatch($BASE_URL + "/api/users", bodyElements);
-        if (response.data === "User information updated") {
+        const result = await fetchPatch($BASE_URL + "/api/users", bodyElements);
+        if (result.data === "User information updated") {
           toast.success("User updated successfully");
           await loadSession();
           navigate("/home");
         } else {
-          toast.error(response.data || "Failed to update profile");
+          toast.error(result.data || "Failed to update profile");
         }
       } catch (error) {
         toast.error("An error occurred while updating profile");

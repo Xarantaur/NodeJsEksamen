@@ -20,7 +20,6 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
-
 // Opret en HTTP server
 const server = http.createServer(app);
 

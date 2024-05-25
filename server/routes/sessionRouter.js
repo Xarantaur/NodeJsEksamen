@@ -12,7 +12,10 @@ function doorman(req, res, next) {
 }
 
 router.get("/api/session", (req, res) => {
-  res.send({ data: { user: req.session.user ?? null } });
+  if (req.session.user) {
+    res.send({ data: { user: req.session.user ?? null} });
+  }
+
 });
 
 export default router;

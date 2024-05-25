@@ -7,8 +7,9 @@ export const session = writable(null);
 
 export async function loadSession() {
   try {
-    const baseUrl = get(BASE_URL);
-  
+    console.log("inside the loadsession function")
+    const baseUrl = get(BASE_URL);  
+    console.log("calling fetchSession")
     const response = await fetchSession(`${baseUrl}/api/session`);
     console.log(`Session response: `, response);
     if(response){

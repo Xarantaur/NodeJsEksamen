@@ -1,9 +1,9 @@
-import db from "./connection.js" 
+import db from "./connection.js";
 
-const updateUser = async (email, username, age) => {
-    const user = await db.users.updateOne({ email: email}, { $set: { username: username, age: age}})
-    console.log(user)
-    return user
-}
+const updateUser = async (email, updateData) => {
+  const user = await db.users.updateOne({ email: email }, { $set: updateData });
+   console.log(user)
+  return user;
+};
 
-export default updateUser
+export default updateUser;

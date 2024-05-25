@@ -17,8 +17,10 @@
         }
         
         const result = await fetchPost($BASE_URL + "/api/login", bodyElements)
-        if(result.data === true){
+        if(result.data === true ){
+          console.log("finding session data now")
           await loadSession();
+          console.log("found the session data")
           navigate("/home")
         } else {
           toast.error("Incorrect Email or Password")
