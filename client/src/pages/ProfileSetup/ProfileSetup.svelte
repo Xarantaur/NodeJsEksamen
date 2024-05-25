@@ -19,8 +19,8 @@
       try {
         const result = await fetchPatch($BASE_URL + "/api/users", bodyElements);
         if (result.data === "User information updated") {
-          toast.success("User updated successfully");
           await loadSession();
+          toast.success("User updated successfully");
           navigate("/home");
         } else {
           toast.error(result.data || "Failed to update profile");
