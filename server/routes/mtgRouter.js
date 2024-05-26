@@ -17,7 +17,6 @@ router.get("/api/cards", async (req, res) => {
   }
 });
 
-
 router.post("/api/cards", (req, res) => {
   res.send({ data: "stuff" });
 });
