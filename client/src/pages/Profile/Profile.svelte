@@ -12,10 +12,10 @@
 
     onMount(async () => {
          loadSession();
-         console.log($BASE_URL + "/api/users")
+         /* console.log($BASE_URL + "/api/users")
          if($session.passchange === true){
             navigate("/forcepassword")
-  }
+  } */
     });
 
     async function handleChangeUser(event){

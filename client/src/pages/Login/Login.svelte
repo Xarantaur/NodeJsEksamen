@@ -22,11 +22,11 @@
           console.log("finding session data now")
           await loadSession();
           navigate("/home")
-          console.log($session)
-          if($session.passchange === true){
+         /*  console.log($session) */
+         /*  if($session.passchange === true){
             console.log("force password reset")
             navigate("/forcepassword")
-          }
+          } */
         } else {
           toast.error("Incorrect Email or Password")
         }

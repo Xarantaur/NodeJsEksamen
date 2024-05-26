@@ -1,5 +1,5 @@
 <script>
-  import { Router, Route } from "svelte-navigator";
+  import { Router, Route, navigate } from "svelte-navigator";
   import Home from "./pages/Home/Home.svelte";
   import Drinks from "./pages/Drinks/Drinks.svelte";
   import Login from "./pages/Login/Login.svelte"
@@ -13,9 +13,14 @@
   import { session, loadSession } from "./stores/sessionStore.js"
   import PrivateRoute from "./pages/PrivateRoute/PrivateRoute.svelte";
 
+
   onMount(() => {
     loadSession();
+    /* if($session.passchange === true){
+            navigate("/forcepassword")
+    } */
   })
+  
   import Chat from "./pages/Chat/Chat.svelte"
 </script>
 

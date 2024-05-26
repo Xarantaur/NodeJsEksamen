@@ -5,9 +5,9 @@
 
 
      onMount(() => {
-        if($session.passchange === true){
+      /*   if($session.passchange === true){
             navigate("/forcepassword")
-          }
+          } */
     })
 </script>
 
