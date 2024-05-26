@@ -1,8 +1,10 @@
 import { Router } from "express";
 import findUser from "../database/read.js";
 import createUser from "../database/create.js";
-import { hashPassword, comparePassword } from "../util/passwordUtil.js";
-import { welcomeEmail } from "../util/resend.js";
+import { hashPassword, comparePassword, generatePassword } from "../util/passwordUtil.js";
+import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
+import { hash } from "bcrypt";
+import updateUser from "../database/update.js";
 const router = Router();
 
 /* ---------------------check isAdmin---------------------- */
@@ -79,6 +81,7 @@ router.post("/api/login", async (req, res) => {
     req.session.user = {
       email: user.email,
       username: user.username,
+      passchange: user.passchange
     };
     res.send({ data: true})
   }
@@ -101,5 +104,25 @@ router.post("/api/logout", (req, res) => {
 router.get("/auth/adminsonly", isAdmin, (req, res) => {
   res.send({ data: "you can only get in here if you are a admin" });
 });
+
+router.patch("/auth/changepassword", async (req, res) => {
+  const { email } = req.body;
+  const updateData = {}
+
+  const password = await generatePassword();
+  let newHashedPassword = await hashPassword(password);
+
+  updateData.password = newHashedPassword;
+  updateData.passchange = true;
+
+  try{
+  await updateUser(email, updateData)
+  await resetPasswordEmail(email, password )
+  }catch (error) {
+    console.log("error")
+    return res.status(500).send({ data: "Internal Server Error" })
+  }
+  res.send({ data: "password reset requested" })
+})
 
 export default router;

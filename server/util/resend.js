@@ -7,17 +7,18 @@ export async function welcomeEmail(email) {
   console.log("sending email")
   await resend.emails.send({
   from: "Acme <onboarding@resend.dev>",
-  to: [email],
+  to: "resendthismail@gmail.com",
   subject: "Hey you!",
   html: "welcome to Lars og Lasse's Eksamens projekt",
 });
 }
 
-export async function resetPasswordEmail(email) {
+export async function resetPasswordEmail(email, password) {
   await resend.emails.send({
   from: "Acme <onboarding@resend.dev>",
-  to: [email],
+  to: "resendthismail@gmail.com",
   subject: "resetPassword",
-  html: "",
+  html: `${email} has requested a password reset.
+  the new password is: ${password}`,
 });
 }

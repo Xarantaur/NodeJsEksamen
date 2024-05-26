@@ -7,6 +7,8 @@
   import NavBar from "./components/NavBar.svelte";
   import ProfileSetup from "./pages/ProfileSetup/ProfileSetup.svelte";
   import Profile from "./pages/Profile/Profile.svelte";
+  import Changepassword from "./pages/ChangePassword/Changepassword.svelte";
+  import ForcePassword from "./pages/ForcePassword/ForcePassword.svelte"
   import { onMount } from "svelte";
   import { session, loadSession } from "./stores/sessionStore.js"
 
@@ -39,6 +41,12 @@
     </Route>
     <Route path="/profile">
         <Profile/>
+    </Route>
+    <Route path="/changepassword">
+        <Changepassword/>
+    </Route>
+    <Route path="/forcepassword">
+        <ForcePassword/>
     </Route>
   </div>
 </Router>

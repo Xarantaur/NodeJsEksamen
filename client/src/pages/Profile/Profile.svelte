@@ -13,6 +13,9 @@
     onMount(async () => {
          loadSession();
          console.log($BASE_URL + "/api/users")
+         if($session.passchange === true){
+            navigate("/forcepassword")
+  }
     });
 
     async function handleChangeUser(event){
@@ -47,15 +50,15 @@
 
 <div class="container">
     <form on:submit={handleChangeUser}>
-        <input type="username" name="username" placeholder="username" bind:value={username}>
+        <input type="username" name="username" placeholder="username" bind:value={username} required >
         <input type="submit" value="Change">
         </form>
     <form on:submit={handleChangeUser}>
-        <input type="Age" name="Age" placeholder="Age" bind:value={age}>
+        <input type="Age" name="Age" placeholder="Age" bind:value={age} required>
         <input type="submit" value="Change">
         </form>
     <form on:submit={handleChangeUser}>
-        <input type="text" name="password" placeholder="password" bind:value={password}>
+        <input type="text" name="password" placeholder="password" bind:value={password} required>
         <input type="submit" value="Change">
         </form>
 </div>

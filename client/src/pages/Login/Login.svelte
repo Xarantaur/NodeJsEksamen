@@ -4,6 +4,7 @@
     import { fetchPost } from "../../util/api.js"
     import toast, {Toaster } from "svelte-french-toast"
   import { loadSession } from "../../stores/sessionStore.js";
+  import { session } from "../../stores/sessionStore.js";
 
     let email;
     let password;
@@ -20,11 +21,20 @@
         if(result.data === true ){
           console.log("finding session data now")
           await loadSession();
-          console.log("found the session data")
           navigate("/home")
+          console.log($session)
+          if($session.passchange === true){
+            console.log("force password reset")
+            navigate("/forcepassword")
+          }
         } else {
           toast.error("Incorrect Email or Password")
         }
+    }
+
+    async function handleResetButton(event){
+      event.preventDefault()
+      navigate("/changepassword")
     }
 
 </script>
@@ -36,6 +46,7 @@
         <input type="password" name="password" placeholder="Password" bind:value={password}>
         <input type="submit" value="login">
       </form>
+      <button on:click={handleResetButton}>Reset Password</button>
 </div>
 
 <style>
