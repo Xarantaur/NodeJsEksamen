@@ -55,3 +55,17 @@ export async function fetchSession(url) {
   }
   return user;
 }
+
+export function fetchDelete(url, body) {
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+    .then((response) => response.json())
+    .then((result) => result)
+    .catch((error) => console.error(error));
+}

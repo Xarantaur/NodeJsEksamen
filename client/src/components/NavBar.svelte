@@ -84,7 +84,7 @@
     <div class="logo">Logo</div>
     <div class="nav-links">
       <Link to="/">Home</Link>
-      <Link to="/drinks">Drinks</Link>
+      <Link to="/cards">Cards</Link>
       <Link to="/chat">Chat</Link>
     </div>
     {#if $session}

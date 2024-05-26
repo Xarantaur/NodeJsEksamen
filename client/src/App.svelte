@@ -51,7 +51,7 @@
     <PrivateRoute path="/chat" let:location>
       <Chat/>
     </PrivateRoute>
-    <PrivateRoute path="/drinks" let:location>
+    <PrivateRoute path="/cards" let:location>
       <Cards/>
     </PrivateRoute>
   </div>

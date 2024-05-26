@@ -37,9 +37,7 @@ router.delete("/api/cards", async (req, res) => {
   try{
     const result = await deleteCard(name)
     if(result.deletedCount === 1){
-    res.send({ data: "Card Deleted Succesfully"})} else {
-        res.send({ data: "card not found"})
-    }
+    res.send({ data: "Card Deleted Succesfully"})}
   } catch(error){
     res.send({ data: error.message })
   }
