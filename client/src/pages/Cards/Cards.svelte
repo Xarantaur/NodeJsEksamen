@@ -2,8 +2,8 @@
     import { onMount } from "svelte";
     import { BASE_URL } from "../../stores/generalStore";
     import { fetchDelete, fetchGet, fetchPatch } from "../../util/api";
-  import { navigate } from "svelte-navigator";
-  import toast from "svelte-french-toast";
+    import { navigate } from "svelte-navigator";
+    import toast from "svelte-french-toast";
   
     let cards = [];
     let error = null;
@@ -12,10 +12,10 @@
     const fetchCards = async () => {
         try{
         cards = await fetchGet($BASE_URL + "/api/cards")
+        console.log(cards + " has been fetched")
       }catch(error){
         toast.error("failed to fetch cards")
-      }
-      }
+      }}
   
     onMount(() => {
       fetchCards() 
@@ -23,9 +23,30 @@
     
     
 
-    function handleUpdate(index){
-
+   async function handleUpdate(index){
+    if (editingIndex === index) {
+      try {
+        console.log("pressing update/save")
+        const updatedCard = cards[index];
+        const { name, manacost, type, rarity, set, ability, power, toughness } = updatedCard;
+        console.log("passed the variables, before the fetch")
+        const result = await fetchPatch($BASE_URL + "/api/cards", { name, manacost, type, rarity, set, ability, power, toughness });
+        if(result.data === "card has been updated"){
+        console.log("after fetch, before editingIndex set to null")
+        editingIndex = null;
+        console.log(" after editing set to null, before fetchcards() ")
+        fetchCards();
+        toast.success("Card updated successfully");
+        }
+      } catch (err) {
+        toast.error("Error updating card: " + err.message);
+      }
+    } else {
+      editingIndex = index;
     }
+  }
+
+    
 
 
     async function handleDelete(name){
@@ -35,7 +56,6 @@
         if(result.data === "Card Deleted Succesfully"){
           fetchCards()
           toast.success(result.data)
-
         }
       } catch(error) {
         error = error.message;
@@ -57,6 +77,10 @@
       border-bottom: 1px solid #ddd;
     }
   </style>
+  
+  <header>
+    <h1>Stored Cards</h1>
+  </header>
   
   {#if error}
   <p>Error: {error}</p>
