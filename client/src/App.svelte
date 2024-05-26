@@ -1,7 +1,7 @@
 <script>
   import { Router, Route, navigate } from "svelte-navigator";
   import Home from "./pages/Home/Home.svelte";
-  import Drinks from "./pages/Drinks/Drinks.svelte";
+  import Cards from "./pages/Cards/Cards.svelte";
   import Login from "./pages/Login/Login.svelte"
   import Signup from "./pages/Signup/Signup.svelte"
   import NavBar from "./components/NavBar.svelte";
@@ -52,7 +52,7 @@
       <Chat/>
     </PrivateRoute>
     <PrivateRoute path="/drinks" let:location>
-      <Drinks/>
+      <Cards/>
     </PrivateRoute>
   </div>
 </Router>
