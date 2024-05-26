@@ -12,3 +12,5 @@ export const createCard = async (name, manacost, type, rarity, set, ability, pow
                                              set: set, ability: ability, power: power, toughness: toughness});
     return newCard;
 }
+
+
