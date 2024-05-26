@@ -1,8 +1,12 @@
 import db from "./connection.js";
 
- const deleteUser = async (email) => {
+ export const deleteUser = async (email) => {
   const user = await db.users.deleteOne({ email: email });
   return user
 };
 
-export default deleteUser
+ export const deleteCard = async (name) => {
+  const card = await db.mtg.deleteOne({ name: name });
+  return card
+};
+
