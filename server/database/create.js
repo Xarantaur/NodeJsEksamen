@@ -1,5 +1,5 @@
 import db from "./connection.js"
-import findUser from "./read.js"
+import { findUser } from "./read.js"
 
 export const createUser = async (email, password, ) => {
     const newUser = await db.users.insertOne({ email: email, password: password})

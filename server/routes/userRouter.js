@@ -1,6 +1,6 @@
 import { Router } from "express";
-import updateUser from "../database/update.js";
-import deleteUser from "../database/delete.js";
+import { updateUser } from "../database/update.js";
+import { deleteUser } from "../database/delete.js";
 import { hashPassword, comparePassword } from "../util/passwordUtil.js";
 
 const router = Router();
