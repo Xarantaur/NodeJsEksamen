@@ -1,20 +1,21 @@
 <script>
     import { onMount } from "svelte";
+    import { BASE_URL } from "../../stores/generalStore";
+  import { fetchGet } from "../../util/api";
   
     let cards = [];
     let error = null;
   
     onMount(async () => {
       try {
-        const response = await fetch("/api/cards");
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.status}`);
-        }
-        cards = await response.json();
+        console.log("fetching cards")
+        cards = await fetchGet($BASE_URL + "/api/cards");
+        
       } catch (err) {
         error = err.message;
       }
     });
+
   </script>
   
   <style>

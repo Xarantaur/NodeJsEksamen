@@ -3,7 +3,6 @@ import { findUser } from "../database/read.js";
 import { createUser } from "../database/create.js";
 import { hashPassword, comparePassword, generatePassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
-import { hash } from "bcrypt";
 import { updateUser } from "../database/update.js";
 const router = Router();
 
@@ -20,10 +19,10 @@ function isAdmin(req, res, next) {
 /* --------------------------------login functionality---------------------------- */
 async function login(email, plainTextPassword) {
   const user = await findUser(email);
-  const { password } = user;
   if (!user) {
     return null;
   } else {
+    const { password } = user;
     const passCheck = await comparePassword(plainTextPassword, password);
     if (passCheck === false) {
       "Wrong Email or Password"
