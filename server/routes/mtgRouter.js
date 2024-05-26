@@ -1,26 +1,33 @@
+
 import { findCard } from "../database/read";
 
+import { Router } from "express";
+import { createCard } from "../database/create.js";
+import { deleteCard } from "../database/delete.js";
+import { findAllCards, findCard } from "../database/read.js";
+import { updateCard } from "../database/update.js";
+const router = Router();
 
-router.get("/api/mtg", (req, res) => {
-    const { name } = req.body;
-    const card = findCard(name)
-    if(!card) {
-        console.log("no card found")
-    }else{
-        toast.succes("")
-    }
-  res.send({ data: "stuff" });
+router.get("/api/cards", async (req, res) => {
+  try {
+    const cards = await findAllCards();
+    res.status(200).send(cards);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 });
 
 
-router.post("/api/mtg", (req, res) => {
+router.post("/api/cards", (req, res) => {
   res.send({ data: "stuff" });
 });
 
-router.patch("/api/mtg", (req, res) => {
+router.patch("/api/cards", (req, res) => {
   res.send({ data: "stuff" });
 });
 
-router.delete("/api/mtg", (req, res) => {
+router.delete("/api/cards", (req, res) => {
   res.send({ data: "stuff" });
 });
+
+export default router;
