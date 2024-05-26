@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { BASE_URL } from "../../stores/generalStore";
-  import { fetchGet } from "../../util/api";
+    import { fetchGet } from "../../util/api";
   
     let cards = [];
     let error = null;
@@ -44,6 +44,8 @@
           <th>Ability</th>
           <th>Power</th>
           <th>Toughness</th>
+          <th>Update</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -57,6 +59,8 @@
             <td>{card.ability}</td>
             <td>{card.power}</td>
             <td>{card.toughness}</td>
+            <td><button>Update</button></td>
+            <td><button>Delete</button></td>
           </tr>
         {/each}
       </tbody>

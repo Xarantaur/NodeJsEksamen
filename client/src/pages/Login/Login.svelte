@@ -44,7 +44,7 @@
     <form on:submit={handleLogin}>
         <input type="email" name="email" placeholder="Email" bind:value={email}>
         <input type="password" name="password" placeholder="Password" bind:value={password}>
-        <input type="submit" value="login">
+        <input type="submit" value="Login">
       </form>
       <button on:click={handleResetButton}>Reset Password</button>
 </div>
