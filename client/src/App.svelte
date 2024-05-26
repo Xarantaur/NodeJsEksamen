@@ -11,6 +11,7 @@
   import ForcePassword from "./pages/ForcePassword/ForcePassword.svelte"
   import { onMount } from "svelte";
   import { session, loadSession } from "./stores/sessionStore.js"
+  import PrivateRoute from "./pages/PrivateRoute/PrivateRoute.svelte";
 
   onMount(() => {
     loadSession();
@@ -24,9 +25,6 @@
     <Route path="/">
       <Home />
     </Route>
-    <Route path="/drinks">
-      <Drinks/>
-    </Route>
     <Route path="/login">
       <Login />
     </Route>
@@ -35,9 +33,6 @@
     </Route>
     <Route path="/profileSetup">
       <ProfileSetup />
-    </Route>
-    <Route path="/chat">
-        <Chat/>
     </Route>
     <Route path="/profile">
         <Profile/>
@@ -48,6 +43,12 @@
     <Route path="/forcepassword">
         <ForcePassword/>
     </Route>
+    <PrivateRoute path="/chat" let:location>
+      <Chat/>
+    </PrivateRoute>
+    <PrivateRoute path="/drinks" let:location>
+      <Drinks/>
+    </PrivateRoute>
   </div>
 </Router>
 

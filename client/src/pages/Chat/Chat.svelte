@@ -34,11 +34,11 @@
   // Function to send a message
   function sendMessage() {
     if (message.trim()) {
-      const user = get(session); // Get the current session user
+      const {username, email} = $session; // Get the current session user
       const chatMessage = {
         text: message,
-        username: user.username,
-        email: user.email
+        username: username,
+        email: email
       };
       socket.emit('chat message', chatMessage); // Emit the message object to the server
       console.log("Message sent from frontend:", chatMessage); // Log the sent message
@@ -120,7 +120,7 @@
 
   .message {
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-bottom: 10px;
     max-width: 60%;
     min-width: 30%;
