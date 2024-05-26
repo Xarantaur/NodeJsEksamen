@@ -26,17 +26,13 @@
    async function handleUpdate(index){
     if (editingIndex === index) {
       try {
-        console.log("pressing update/save")
         const updatedCard = cards[index];
         const { name, manacost, type, rarity, set, ability, power, toughness } = updatedCard;
-        console.log("passed the variables, before the fetch")
         const result = await fetchPatch($BASE_URL + "/api/cards", { name, manacost, type, rarity, set, ability, power, toughness });
         if(result.data === "card has been updated"){
-        console.log("after fetch, before editingIndex set to null")
         editingIndex = null;
-        console.log(" after editing set to null, before fetchcards() ")
         fetchCards();
-        toast.success("Card updated successfully");
+        toast.success(result.data);
         }
       } catch (err) {
         toast.error("Error updating card: " + err.message);

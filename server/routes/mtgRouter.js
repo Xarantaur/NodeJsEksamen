@@ -39,7 +39,6 @@ router.patch("/api/cards", async (req, res) => {
   try{
   await updateCard(name, updateData);
   res.send({ data: "card has been updated" })
-  console.log("card has been updated")
   }catch (error) {
     res.send({ data: error.message })
   }
