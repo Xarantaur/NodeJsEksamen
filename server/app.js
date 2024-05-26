@@ -57,6 +57,9 @@ app.use(authenticationRouter);
 import userRouter from "./routes/userRouter.js";
 app.use(userRouter);
 
+import mtgRouter from "./routes/mtgRouter.js";
+app.use(mtgRouter)
+
 // Root route
 app.get("/", (req, res) => {
   res.send({ data: "velkommen" });

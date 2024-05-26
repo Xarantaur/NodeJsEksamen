@@ -14,7 +14,7 @@ export const findCard = async (name) => {
 
 export const findAllCards = async () => {
     const cards = await db.mtg.find().toArray();
-    return cards;
+    return cards
 }
 
 
