@@ -5,6 +5,7 @@
     import { BASE_URL } from "../stores/generalStore.js"
     import { fetchPost } from "../util/api.js";
     import toast,{ Toaster } from "svelte-french-toast";
+    import StudyLogo from "../../public/StudyLogo.png"
 
     async function handleLogout(){
 
@@ -43,8 +44,14 @@
       font-weight: bold;
       font-size: 1.5em;
       padding-left: 40px;
+      height: 100%;
     }
-  
+
+    .logo img {
+       height: 100%;
+      object-fit: cover; 
+    }
+
     .nav-links {
       display: flex;
       gap: 30px;
@@ -81,7 +88,7 @@
   </style>
   
   <nav>
-    <div class="logo">Logo</div>
+    <div class="logo"><img src={StudyLogo} alt="Logo"></div>
     <div class="nav-links">
       <Link to="/">Home</Link>
       <Link to="/cards">Cards</Link>

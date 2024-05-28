@@ -1,10 +1,10 @@
 <script>
-   import { navigate } from "svelte-navigator";
+import { navigate } from "svelte-navigator";
 import { BASE_URL } from "../../stores/generalStore.js";
 import { fetchPost } from "../../util/api.js";
 import toast, { Toaster } from "svelte-french-toast";
 import { loadSession } from "../../stores/sessionStore.js";
-import { session } from "../../stores/sessionStore.js";
+
 
 let email;
 let password;
@@ -39,8 +39,8 @@ async function handleResetButton(event) {
         <input type="email" name="email" placeholder="Email" bind:value={email}>
         <input type="password" name="password" placeholder="Password" bind:value={password}>
         <input type="submit" value="Login">
+        <button on:click={handleResetButton}>Reset Password</button>
       </form>
-      <button on:click={handleResetButton}>Reset Password</button>
 </div>
 
 <style>
@@ -82,7 +82,19 @@ async function handleResetButton(event) {
     }
 
     button {
-      margin-top: 15px;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 4px;
+      background-color: #555;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 10px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+      background-color: #777;
     }
   </style>
 
