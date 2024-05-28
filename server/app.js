@@ -3,7 +3,7 @@ import express from "express";
 import path from 'path';
 import session from "express-session";
 import http from "http";
-import { Server } from "socket.io";
+import configureSocket from "./util/socketConfig.js";
 
 
 // Initialiser app med express
@@ -12,7 +12,7 @@ app.use(express.static(path.resolve("../client/dist")));
 app.use(express.json());
 
 // Opret session middleware
-const sessionMiddleware = session({
+export const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
@@ -20,32 +20,11 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
-// Opret en HTTP server
+// Create an HTTP server
 const server = http.createServer(app);
 
-// Initialiser socket.io med den oprettede server
-const io = new Server(server, {
-  cors: {
-    origin: "*", 
-    methods: ["*"]
-  }
-});
-
-// Gør så socket.io benytter sig af session middleware
-io.engine.use(sessionMiddleware);
-
-// Håndter socket.io connection 
-io.on('connection', (socket) => {
-  console.log('a user connected');
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-});
+// Configure socket.io with the created server
+configureSocket(server);
 
 // Importer og gør så app benytter sig af de routere LiveChat
 import sessionRouter from "./routes/sessionRouter.js";
