@@ -8,7 +8,7 @@
 
     async function handleLogout(){
 
-      const response = await fetchPost($BASE_URL + "/api/logout")
+      const response = await fetchPost($BASE_URL + "/auth/logout")
       if(response.data === "Logout Succesful"){
         toast.success("Logout Succesful");
         session.set(null);

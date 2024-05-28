@@ -4,6 +4,7 @@ import { deleteUser } from "../database/delete.js";
 import { hashPassword, comparePassword } from "../util/passwordUtil.js";
 
 const router = Router();
+
 router.patch("/auth/users", async (req, res) => {
   const { email } = req.session.user;
   const { username, age, password } = req.body;
@@ -49,8 +50,8 @@ router.delete("/auth/users/", async (req, res) => {
     res.status(400).send({ data: "Missing Email" });
   }
 
-  const result = await deleteUser(email);
-  if (result.deletedCount === 0) {
+  const user = await deleteUser(email);
+  if (user.deletedCount === 0) {
     return res.status(404).send({ data: "No User with that Email found" });
   }
   res.send({ data: `${email} Deleted Successfully` });
