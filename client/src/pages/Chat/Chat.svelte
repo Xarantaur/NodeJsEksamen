@@ -2,10 +2,10 @@
   import { onMount } from "svelte";
   import io from "socket.io-client";
   import { session } from '../../stores/sessionStore.js';
+  import { messagesStore } from "../../stores/messageStore.js";
   import { get } from 'svelte/store';
 
-  let messages = []; //Arrayet der skal indeholde alle de beskeder som bliver sendt
-  let message = ''; // Variablen som skal indeholde værdien af den besked som skal sendes
+  let message = ''; // Variable to hold the value of the message to be sent
   let socket;
   let userSession;
 
@@ -20,8 +20,12 @@
 
     // Listen for incoming chat messages
     socket.on('chat message', (msg) => {
-      console.log('Message received in frontend', msg); // Log received messages
-      messages = [...messages, msg]; // Spread operator to trigger reactivity
+      messagesStore.update(messages => {
+        if (!messages.some(m => m.id === msg.id)) { // Check for duplication
+          return [...messages, msg]; // Update the store with the new message if not duplicate
+        }
+        return messages; // Return the original messages if duplicate found
+      });
     });
 
     // Disconnect the socket and unsubscribe from the store when the component is destroyed
@@ -34,14 +38,15 @@
   // Function to send a message
   function sendMessage() {
     if (message.trim()) {
-      const {username, email} = $session; // Get the current session user
+      const { username, email } = get(session); // Get the current session user
       const chatMessage = {
+        id: Date.now(), // Generate a unique ID for the message
         text: message,
         username: username,
         email: email
       };
-      socket.emit('chat message', chatMessage); // Emit the message object to the server
-      console.log("Message sent from frontend:", chatMessage); // Log the sent message
+      socket.emit('chat message', chatMessage); // Emit the message object to the server 
+      messagesStore.update(messages => [...messages, chatMessage]); // Update the store with the sent message
       message = ''; // Clear the message input
     }
   }
@@ -49,7 +54,7 @@
 
 <div class="chat-container">
   <div class="messages">
-    {#each messages as msg (msg.text)}
+    {#each $messagesStore as msg (msg.id)}
       <div class="message {msg.email === userSession?.email ? 'user' : 'other'}">
         <strong>{msg.username}</strong> 
         <br>
