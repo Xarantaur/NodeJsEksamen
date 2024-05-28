@@ -4,8 +4,7 @@ import { deleteUser } from "../database/delete.js";
 import { hashPassword, comparePassword } from "../util/passwordUtil.js";
 
 const router = Router();
-
-router.patch("/api/users", async (req, res) => {
+router.patch("/auth/users", async (req, res) => {
   const { email } = req.session.user;
   const { username, age, password } = req.body;
   const updateData = {};
@@ -42,7 +41,8 @@ router.patch("/api/users", async (req, res) => {
   }
 });
 
-router.delete("/api/users/", async (req, res) => {
+/*  ikke implementeret i frontend, kan vi nå det ?   */
+router.delete("/auth/users/", async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
@@ -51,7 +51,7 @@ router.delete("/api/users/", async (req, res) => {
 
   const result = await deleteUser(email);
   if (result.deletedCount === 0) {
-    return res.status(404).send({ data: "No User with that Email not found" });
+    return res.status(404).send({ data: "No User with that Email found" });
   }
   res.send({ data: `${email} Deleted Successfully` });
 });

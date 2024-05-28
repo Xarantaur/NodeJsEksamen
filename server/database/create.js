@@ -2,22 +2,18 @@ import db from "./connection.js";
 import { findUser } from "./read.js";
 
 export const createUser = async (email, password) => {
-  const newUser = await db.users.insertOne({ email: email, password: password });
+  await db.users.insertOne({ email: email, password: password });
   const user = await findUser(email);
   return user;
 };
 
-export const createCard = async (name, manacost, type, rarity, set, ability, power, toughness) => {
-  const newCard = {
-    name: name,
-    manacost: manacost,
-    type: type,
-    rarity: rarity,
-    set: set,
-    ability: ability,
-    power: power,
-    toughness: toughness,
-  };
-  await db.mtg.insertOne(newCard);
-  return newCard;
+/* lad os håbe at der her virker, har ændret at alle parameter gives med til at den bare modtager et object fra route */
+export const createCard = async ( card ) => {
+  try {
+  const result = await db.mtg.insertOne( card );
+  return result;
+  } catch (error){
+    console.error( error.message )
+    throw error 
+  }
 };

@@ -6,6 +6,8 @@ export const hashPassword = async (plainTextPassword) => bcrypt.hash(plainTextPa
 
 export const comparePassword = async ( plainTextPassword, password) => bcrypt.compare(plainTextPassword, password)
 
+
+/* ----------------------- er det her overhovedet ok? */
 export async function generatePassword(){
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = "";
