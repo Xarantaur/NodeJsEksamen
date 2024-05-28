@@ -1,95 +1,105 @@
 <script>
   import { onMount } from "svelte";
-  import { BASE_URL } from "../../stores/generalStore";
-  import { fetchDelete, fetchGet, fetchPatch, fetchPost } from "../../util/api";
-  import toast from "svelte-french-toast";
+import { BASE_URL } from "../../stores/generalStore";
+import { fetchDelete, fetchGet, fetchPatch, fetchPost } from "../../util/api";
+import toast from "svelte-french-toast";
 
-  let cards = [];
-  let error = null;
-  let editingIndex = null;
-  let showForm = false;
+let cards = [];
+let error = null;
+let editingIndex = null;
+let showForm = false;
 
-  let newCard = {
-    name: '',
-    manacost: '',
-    type: '',
-    rarity: '',
-    set: '',
-    ability: '',
-    power: '',
-    toughness: ''
-  };
+let newCard = {
+  name: "",
+  manacost: "",
+  type: "",
+  rarity: "",
+  set: "",
+  ability: "",
+  power: "",
+  toughness: "",
+};
 
-  const fetchCards = async () => {
-    try {
-      cards = await fetchGet($BASE_URL + "/api/cards");
-      console.log(cards + " has been fetched");
-    } catch (error) {
-      toast.error("Failed to fetch cards");
-    }
-  };
-
-  onMount(() => {
-    fetchCards();
-  });
-
-  async function handleUpdate(index) {
-    if (editingIndex === index) {
-      try {
-        const updatedCard = cards[index];
-        const { name, manacost, type, rarity, set, ability, power, toughness } = updatedCard;
-        const result = await fetchPatch($BASE_URL + "/api/cards", { name, manacost, type, rarity, set, ability, power, toughness });
-        if (result.data === "card has been updated") {
-          editingIndex = null;
-          fetchCards();
-          toast.success(result.data);
-        }
-      } catch (err) {
-        toast.error("Error updating card: " + err.message);
-      }
-    } else {
-      editingIndex = index;
-    }
+const fetchCards = async () => {
+  try {
+    cards = await fetchGet($BASE_URL + "/api/cards");
+    console.log(cards + " has been fetched");
+  } catch (error) {
+    toast.error("Failed to fetch cards");
   }
+};
 
-  async function handleDelete(name) {
+onMount(() => {
+  fetchCards();
+});
+
+async function handleUpdate(index) {
+  if (editingIndex === index) {
     try {
-      const result = await fetchDelete($BASE_URL + "/api/cards", { name: name });
-      if (result.data === "Card Deleted Succesfully") {
+      const updatedCard = cards[index];
+      const { name, manacost, type, rarity, set, ability, power, toughness } = updatedCard;
+      const result = await fetchPatch($BASE_URL + "/api/cards", {
+        name,
+        manacost,
+        type,
+        rarity,
+        set,
+        ability,
+        power,
+        toughness,
+      });
+      if (result.data === "card has been updated") {
+        editingIndex = null;
         fetchCards();
         toast.success(result.data);
       }
-    } catch (error) {
-      toast.error("Error deleting card: " + error.message);
+    } catch (err) {
+      toast.error("Error updating card: " + err.message);
     }
+  } else {
+    editingIndex = index;
   }
+}
 
-  async function handleCreate() {
-    try {
-      const result = await fetchPost($BASE_URL + "/api/cards", newCard);
-      if (result) {
-        fetchCards();
-        toast.success("Card created successfully");
-        showForm = false;
-        newCard = {
-          name: '',
-          manacost: '',
-          type: '',
-          rarity: '',
-          set: '',
-          ability: '',
-          power: '',
-          toughness: ''
-        };
-      }
-    } catch (error) {
-      toast.error("Error creating card: " + error.message);
+async function handleDelete(name) {
+  try {
+    const result = await fetchDelete($BASE_URL + "/api/cards", { name: name });
+    if (result.data === "Card Deleted Succesfully") {
+      fetchCards();
+      toast.success(result.data);
     }
+  } catch (error) {
+    toast.error("Error deleting card: " + error.message);
   }
+}
 
-  function closeForm() {
-    showForm = false;
+async function handleCreate() {
+  try {
+    const result = await fetchPost($BASE_URL + "/api/cards", newCard);
+    if (result) {
+      fetchCards();
+      toast.success("Card created successfully");
+      showForm = false;
+      newCard = {
+        name: "",
+        manacost: "",
+        type: "",
+        rarity: "",
+        set: "",
+        ability: "",
+        power: "",
+        toughness: "",
+      };
+    }
+  } catch (error) {
+    toast.error("Error creating card: " + error.message);
   }
+}
+
+function closeForm() {
+  showForm = false;
+}
+
 </script>
 
 <header>

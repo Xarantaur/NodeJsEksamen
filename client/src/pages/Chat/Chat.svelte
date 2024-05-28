@@ -1,55 +1,56 @@
 <script>
-  import { onMount } from "svelte";
-  import io from "socket.io-client";
-  import { session } from '../../stores/sessionStore.js';
-  import { messagesStore } from "../../stores/messageStore.js";
-  import { get } from 'svelte/store';
+import { onMount } from "svelte";
+import io from "socket.io-client";
+import { session } from "../../stores/sessionStore.js";
+import { messagesStore } from "../../stores/messageStore.js";
+import { get } from "svelte/store";
 
-  let message = ''; // Variable to hold the value of the message to be sent
-  let socket;
-  let userSession;
+let message = ""; // Variable to hold the value of the message to be sent
+let socket;
+let userSession;
 
-  onMount(() => {
-    // Subscribe to session store
-    const unsubscribe = session.subscribe(value => {
-      userSession = value;
-    });
-
-    // Connect to the Socket.IO server
-    socket = io('http://localhost:8080'); // Ensure the URL scheme is correct
-
-    // Listen for incoming chat messages
-    socket.on('chat message', (msg) => {
-      messagesStore.update(messages => {
-        if (!messages.some(m => m.id === msg.id)) { // Check for duplication
-          return [...messages, msg]; // Update the store with the new message if not duplicate
-        }
-        return messages; // Return the original messages if duplicate found
-      });
-    });
-
-    // Disconnect the socket and unsubscribe from the store when the component is destroyed
-    return () => {
-      socket.disconnect();
-      unsubscribe();
-    };
+onMount(() => {
+  // Subscribe to session store
+  const unsubscribe = session.subscribe((value) => {
+    userSession = value;
   });
 
-  // Function to send a message
-  function sendMessage() {
-    if (message.trim()) {
-      const { username, email } = get(session); // Get the current session user
-      const chatMessage = {
-        id: Date.now(), // Generate a unique ID for the message
-        text: message,
-        username: username,
-        email: email
-      };
-      socket.emit('chat message', chatMessage); // Emit the message object to the server 
-      messagesStore.update(messages => [...messages, chatMessage]); // Update the store with the sent message
-      message = ''; // Clear the message input
-    }
+  // Connect to the Socket.IO server
+  socket = io("http://localhost:8080"); // Ensure the URL scheme is correct
+
+  // Listen for incoming chat messages
+  socket.on("chat message", (msg) => {
+    messagesStore.update((messages) => {
+      if (!messages.some((m) => m.id === msg.id)) {
+        // Check for duplication
+        return [...messages, msg]; // Update the store with the new message if not duplicate
+      }
+      return messages; // Return the original messages if duplicate found
+    });
+  });
+
+  // Disconnect the socket and unsubscribe from the store when the component is destroyed
+  return () => {
+    socket.disconnect();
+    unsubscribe();
+  };
+});
+
+// Function to send a message
+function sendMessage() {
+  if (message.trim()) {
+    const { username, email } = get(session); // Get the current session user
+    const chatMessage = {
+      id: Date.now(), // Generate a unique ID for the message
+      text: message,
+      username: username,
+      email: email,
+    };
+    socket.emit("chat message", chatMessage); // Emit the message object to the server
+    messagesStore.update((messages) => [...messages, chatMessage]); // Update the store with the sent message
+    message = ""; // Clear the message input
   }
+}
 </script>
 
 <div class="chat-container">

@@ -1,35 +1,35 @@
 <script>
-    import { navigate } from "svelte-navigator";
-    import { BASE_URL } from "../../stores/generalStore";
-    import { fetchPatch } from "../../util/api";
-    import toast, { Toaster } from "svelte-french-toast";
+  import { navigate } from "svelte-navigator";
+  import { BASE_URL } from "../../stores/generalStore";
+  import { fetchPatch } from "../../util/api";
+  import toast, { Toaster } from "svelte-french-toast";
   import { loadSession } from "../../stores/sessionStore";
-  
-    let username;
-    let age;
-  
-    async function handleProfileSetup(event) {
-      event.preventDefault();
-  
-      const bodyElements = { 
-        username: username,
-        age: age 
+
+  let username;
+  let age;
+
+  async function handleProfileSetup(event) {
+    event.preventDefault();
+
+    const bodyElements = {
+      username: username,
+      age: age,
     };
-  
-      try {
-        const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
-        if (result.data === "User information updated") {
-          await loadSession();
-          toast.success("User updated successfully");
-          navigate("/home");
-        } else {
-          toast.error(result.data || "Failed to update profile");
-        }
-      } catch (error) {
-        toast.error("An error occurred while updating profile");
-        console.error(error);
+
+    try {
+      const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
+      if (result.data === "User information updated") {
+        await loadSession();
+        toast.success("User updated successfully");
+        navigate("/home");
+      } else {
+        toast.error(result.data || "Failed to update profile");
       }
+    } catch (error) {
+      toast.error("An error occurred while updating profile");
+      console.error(error);
     }
+  }
   </script>
   
   <Toaster />

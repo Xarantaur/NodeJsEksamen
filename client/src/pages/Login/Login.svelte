@@ -1,35 +1,35 @@
 <script>
-    import { navigate } from "svelte-navigator";
-    import { BASE_URL } from "../../stores/generalStore.js"
-    import { fetchPost } from "../../util/api.js"
-    import toast, {Toaster } from "svelte-french-toast"
-  import { loadSession } from "../../stores/sessionStore.js";
-  import { session } from "../../stores/sessionStore.js";
+   import { navigate } from "svelte-navigator";
+import { BASE_URL } from "../../stores/generalStore.js";
+import { fetchPost } from "../../util/api.js";
+import toast, { Toaster } from "svelte-french-toast";
+import { loadSession } from "../../stores/sessionStore.js";
+import { session } from "../../stores/sessionStore.js";
 
-    let email;
-    let password;
+let email;
+let password;
 
-    async function handleLogin(event){
-        event.preventDefault();
+async function handleLogin(event) {
+  event.preventDefault();
 
-        const bodyElements = {
-          email: email,
-          password: password
-        }
-        
-        const result = await fetchPost($BASE_URL + "/auth/login", bodyElements)
-        if(result.data === true ){
-          await loadSession();
-          navigate("/home")
-        } else {
-          toast.error("Incorrect Email or Password")
-        }
-    }
+  const bodyElements = {
+    email: email,
+    password: password,
+  };
 
-    async function handleResetButton(event){
-      event.preventDefault()
-      navigate("/changepassword")
-    }
+  const result = await fetchPost($BASE_URL + "/auth/login", bodyElements);
+  if (result.data === true) {
+    await loadSession();
+    navigate("/home");
+  } else {
+    toast.error("Incorrect Email or Password");
+  }
+}
+
+async function handleResetButton(event) {
+  event.preventDefault();
+  navigate("/changepassword");
+}
 
 </script>
 <Toaster /> 

@@ -2,10 +2,9 @@
 <script>
   import { onMount } from "svelte";
 
-
-    onMount(() => {
-        console.log("inside forcepassword reset")
-    })
+onMount(() => {
+  console.log("inside forcepassword reset");
+});
 </script>
 
 

@@ -1,23 +1,22 @@
 <script>
-import toast,{ Toaster } from "svelte-french-toast"
-  import { fetchPatch } from "../../util/api";
-  import { navigate } from "svelte-navigator";
-  import { BASE_URL } from "../../stores/generalStore";
-
+import toast, { Toaster } from "svelte-french-toast";
+import { fetchPatch } from "../../util/api";
+import { navigate } from "svelte-navigator";
+import { BASE_URL } from "../../stores/generalStore";
 
 let email;
 
-async function handleResetPassword(event){
-    event.preventDefault()
+async function handleResetPassword(event) {
+  event.preventDefault();
 
-    const bodyElements = {
-        email: email
-    }
-    const result = await fetchPatch($BASE_URL + "/auth/changepassword", bodyElements)
-    if(result.data === "password reset requested") {
-        toast.success("If the User exists, an Email with a new password will be sent to it")
-    } 
-    navigate("/login")
+  const bodyElements = {
+    email: email,
+  };
+  const result = await fetchPatch($BASE_URL + "/auth/changepassword", bodyElements);
+  if (result.data === "password reset requested") {
+    toast.success("If the User exists, an Email with a new password will be sent to it");
+  }
+  navigate("/login");
 }
 
 </script>
