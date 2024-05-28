@@ -4,6 +4,8 @@ import { createUser } from "../database/create.js";
 import { hashPassword, comparePassword, generatePassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
+import authenticate from "../middleware/authMiddleware";
+
 const router = Router();
 
 router.post("/auth/signup", async (req, res) => {
@@ -58,7 +60,7 @@ router.post("/auth/login", async (req, res) => {
   }
 });
 
-router.post("/auth/logout", (req, res) => {
+router.post("/auth/logout", authenticate, (req, res) => {
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
@@ -72,7 +74,7 @@ router.post("/auth/logout", (req, res) => {
   }
 });
 
-router.patch("/auth/changepassword", async (req, res) => {
+router.patch("/auth/changepassword", authenticate, async (req, res) => {
   const { email } = req.body;
   const updateData = {};
 

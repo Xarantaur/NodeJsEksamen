@@ -1,22 +1,10 @@
 import { Router } from "express";
+import authenticate from "../middleware/authMiddleware";
 
 const router = Router();
 
-/* --------- skal renames og implementeres på all auth routes */
-function doorman(req, res, next) {
-  if (!req.session.user) {
-    console.log("ingen aktiv session"); // husk at slette
-  } else {
-    next();
-  }
-}
-
-router.get("/api/session", (req, res) => {
-  console.log("reqsessiosn before");
-  if (req.session.user) {
-    console.log("reqsession");
+router.get("/api/session", authenticate, (req, res) => {
     res.send({ data: { user: req.session.user } });
-  }
-});
+  });
 
 export default router;

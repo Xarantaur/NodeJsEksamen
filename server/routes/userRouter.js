@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { updateUser } from "../database/update.js";
 import { deleteUser } from "../database/delete.js";
-import { hashPassword, comparePassword } from "../util/passwordUtil.js";
+import { hashPassword } from "../util/passwordUtil.js";
+import authenticate from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.patch("/auth/users", async (req, res) => {
+router.patch("/auth/users", authenticate, async (req, res) => {
   const { email } = req.session.user;
   const { username, age, password } = req.body;
   const updateData = {};
@@ -43,7 +44,7 @@ router.patch("/auth/users", async (req, res) => {
 });
 
 /*  ikke implementeret i frontend, kan vi nå det ?   */
-router.delete("/auth/users/", async (req, res) => {
+router.delete("/auth/users/", authenticate, async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
