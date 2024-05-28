@@ -21,7 +21,7 @@ async function handleSignUp(event){
         email: email,
         password: password
     }
-    const result = await fetchPost($BASE_URL + "/api/signup", bodyElements)
+    const result = await fetchPost($BASE_URL + "/auth/signup", bodyElements)
     if(result.data === "user created successfully"){
       toast.success("Successfully Signed up")
         await new Promise(resolve => setTimeout(resolve, 1000)); // ikke elegant eller effektivt. // ændre dette eller slet helt
@@ -36,7 +36,7 @@ async function handleSignUp(event){
 <Toaster />
 <div class="container">
     <h1>Signup</h1>
-    <form on:submit={handleSignUp }>
+    <form on:submit={handleSignUp}>
         <input type="email" name="email" placeholder="Email" bind:value={email}>
         <input type="password" name="password" placeholder="Password" bind:value={password}>
         <input type="password" name="confirmPassword" placeholder="Confirm Password" bind:value={confirmPassword} required>

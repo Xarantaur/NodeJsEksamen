@@ -8,7 +8,6 @@ const baseUrl = get(BASE_URL);
 
 export async function loadSession() {
   try {
-    console.log("inside the loadsession function") 
     console.log("calling fetchSession")
     const response = await fetchSession(`${baseUrl}/api/session`);
     console.log(`Session response: `, response);

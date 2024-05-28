@@ -28,7 +28,7 @@
         if(age) bodyElements.age = age;
         if(password) bodyElements.password = password;
 
-        const result = await fetchPatch($BASE_URL + "/api/users", bodyElements);
+        const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
         if(result.data === "User information updated") {
             toast.success("Username Changed")
             navigate("/profile")

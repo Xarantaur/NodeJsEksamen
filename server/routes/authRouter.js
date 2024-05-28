@@ -6,34 +6,25 @@ import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
 const router = Router();
 
-/* ---------------------check isAdmin---------------------- */
-function isAdmin(req, res, next) {
-  if (req.session.user.role === "admin") {
-    next();
-  } else {
-    console.log(`${req.session.user.email} is not an admin`);
-    res.redirect("http://localhost:8080/");
-  }
-}
-
-/* --------------------------------login functionality---------------------------- */
+/* måske ryk til sin egen Util fil.js */
 async function login(email, plainTextPassword) {
   const user = await findUser(email);
   if (!user) {
     return null;
   } else {
     const { password } = user;
-    const passCheck = await comparePassword(plainTextPassword, password);
-    if (passCheck === false) {
-      "Wrong Email or Password"
-      return null
+    const result = await comparePassword(plainTextPassword, password);
+    if (result === false) {
+      ("Wrong Email or Password");
+      return null;
     }
-    if(passCheck === true){
-    return user;}
+    if (result === true) {
+      return user;
+    }
   }
 }
-/* -------------------------------signup route here-------------------------------- */
-router.post("/api/signup", async (req, res) => {
+
+router.post("/auth/signup", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
@@ -58,8 +49,7 @@ router.post("/api/signup", async (req, res) => {
   }
 });
 
-/* ----------------------------login route here----------------------------------- */
-router.post("/api/login", async (req, res) => {
+router.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
@@ -80,13 +70,13 @@ router.post("/api/login", async (req, res) => {
     req.session.user = {
       email: user.email,
       username: user.username,
-      passchange: user.passchange
+      passchange: user.passchange,
     };
-    res.send({ data: true})
+    res.send({ data: true });
   }
 });
 
-router.post("/api/logout", (req, res) => {
+router.post("/auth/logout", (req, res) => {
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
@@ -100,13 +90,9 @@ router.post("/api/logout", (req, res) => {
   }
 });
 
-router.get("/auth/adminsonly", isAdmin, (req, res) => {
-  res.send({ data: "you can only get in here if you are a admin" });
-});
-
 router.patch("/auth/changepassword", async (req, res) => {
   const { email } = req.body;
-  const updateData = {}
+  const updateData = {};
 
   const password = await generatePassword();
   let newHashedPassword = await hashPassword(password);
@@ -114,14 +100,14 @@ router.patch("/auth/changepassword", async (req, res) => {
   updateData.password = newHashedPassword;
   updateData.passchange = true;
 
-  try{
-  await updateUser(email, updateData)
-  await resetPasswordEmail(email, password )
-  }catch (error) {
-    console.log("error")
-    return res.status(500).send({ data: "Internal Server Error" })
+  try {
+    await updateUser(email, updateData);
+    await resetPasswordEmail(email, password);
+  } catch (error) {
+    console.log("error");
+    return res.status(500).send({ data: "Internal Server Error" });
   }
-  res.send({ data: "password reset requested" })
-})
+  res.send({ data: "password reset requested" });
+});
 
 export default router;

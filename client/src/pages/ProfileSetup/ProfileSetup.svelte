@@ -17,7 +17,7 @@
     };
   
       try {
-        const result = await fetchPatch($BASE_URL + "/api/users", bodyElements);
+        const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
         if (result.data === "User information updated") {
           await loadSession();
           toast.success("User updated successfully");

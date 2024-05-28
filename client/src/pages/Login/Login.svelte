@@ -17,16 +17,10 @@
           password: password
         }
         
-        const result = await fetchPost($BASE_URL + "/api/login", bodyElements)
+        const result = await fetchPost($BASE_URL + "/auth/login", bodyElements)
         if(result.data === true ){
-          console.log("finding session data now")
           await loadSession();
           navigate("/home")
-         /*  console.log($session) */
-         /*  if($session.passchange === true){
-            console.log("force password reset")
-            navigate("/forcepassword")
-          } */
         } else {
           toast.error("Incorrect Email or Password")
         }

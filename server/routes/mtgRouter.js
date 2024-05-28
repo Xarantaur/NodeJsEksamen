@@ -7,40 +7,31 @@ const router = Router();
 
 router.get("/api/cards", async (req, res) => {
   try {
-    const cards = await findAllCards();
-    res.send({ data: cards });
+    const result = await findAllCards();
+    res.send({ data: result });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 });
 
 router.post("/api/cards", async (req, res) => {
-  const { name, manacost, type, rarity, set, ability, power, toughness } = req.body;
+  const card = req.body;
   try {
-    await createCard(name, manacost, type, rarity, set, ability, power, toughness);
+    await createCard(card);
     res.send({ data: "Card created Succesfully" });
   } catch (error) {
     res.send({ data: error.message });
   }
 });
 
+/* update kort navn virker ikke umiddelbart, check svelte, updater kortene baseret på id istedet for navn */
 router.patch("/api/cards", async (req, res) => {
-  const { name, manacost, type, rarity, set, ability, power, toughness } = req.body;
-  const updateData = {
-    name: name,
-    manacost: manacost,
-    type: type,
-    rarity: rarity,
-    set: set,
-    ability: ability,
-    power: power,
-    toughness: toughness
-  }
-  try{
-  await updateCard(name, updateData);
-  res.send({ data: "card has been updated" })
-  }catch (error) {
-    res.send({ data: error.message })
+  const updateData = req.body;
+  try {
+    await updateCard(updateData.name, updateData);
+    res.send({ data: "card has been updated" });
+  } catch (error) {
+    res.send({ data: error.message });
   }
 });
 
