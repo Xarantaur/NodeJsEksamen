@@ -1,28 +1,10 @@
 import { Router } from "express";
-import { findUser } from "../database/read.js";
+import login from "../util/loginUtil.js";
 import { createUser } from "../database/create.js";
 import { hashPassword, comparePassword, generatePassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
 const router = Router();
-
-/* måske ryk til sin egen Util fil.js */
-async function login(email, plainTextPassword) {
-  const user = await findUser(email);
-  if (!user) {
-    return null;
-  } else {
-    const { password } = user;
-    const result = await comparePassword(plainTextPassword, password);
-    if (result === false) {
-      ("Wrong Email or Password");
-      return null;
-    }
-    if (result === true) {
-      return user;
-    }
-  }
-}
 
 router.post("/auth/signup", async (req, res) => {
   const { email, password } = req.body;
@@ -109,5 +91,6 @@ router.patch("/auth/changepassword", async (req, res) => {
   }
   res.send({ data: "password reset requested" });
 });
+
 
 export default router;
