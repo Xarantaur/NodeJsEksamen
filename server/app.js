@@ -1,10 +1,9 @@
 import "dotenv/config";
 import express from "express";
-import path from 'path';
+import path from "path";
 import session from "express-session";
 import http from "http";
 import configureSocket from "./util/socketConfig.js";
-
 
 // Initialiser app med express
 const app = express();
@@ -16,7 +15,7 @@ export const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } 
+  cookie: { secure: false },
 });
 
 app.use(sessionMiddleware);
@@ -37,13 +36,12 @@ import userRouter from "./routes/userRouter.js";
 app.use(userRouter);
 
 import mtgRouter from "./routes/mtgRouter.js";
-app.use(mtgRouter)
+app.use(mtgRouter);
 
 // Root route
 app.get("/", (req, res) => {
   res.send({ data: "velkommen" });
 });
-
 
 // Start serveren LiveChat
 const PORT = process.env.PORT ?? 8080;

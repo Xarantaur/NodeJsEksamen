@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createCard } from "../database/create.js";
 import { deleteCard } from "../database/delete.js";
-import { findAllCards, findCard } from "../database/read.js";
+import { findAllCards } from "../database/read.js";
 import { updateCard } from "../database/update.js";
 const router = Router();
 

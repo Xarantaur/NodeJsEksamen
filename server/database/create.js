@@ -7,13 +7,12 @@ export const createUser = async (email, password) => {
   return user;
 };
 
-/* lad os håbe at der her virker, har ændret at alle parameter gives med til at den bare modtager et object fra route */
-export const createCard = async ( card ) => {
+export const createCard = async (card) => {
   try {
-  const result = await db.mtg.insertOne( card );
-  return result;
-  } catch (error){
-    console.error( error.message )
-    throw error 
+    const result = await db.mtg.insertOne(card);
+    return result;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
   }
 };

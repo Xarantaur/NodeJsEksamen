@@ -1,7 +1,7 @@
 import { Router } from "express";
 import login from "../util/loginUtil.js";
 import { createUser } from "../database/create.js";
-import { hashPassword, comparePassword, generatePassword } from "../util/passwordUtil.js";
+import { hashPassword, generatePassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
 import authenticate from "../middleware/authMiddleware";
@@ -93,6 +93,5 @@ router.patch("/auth/changepassword", authenticate, async (req, res) => {
   }
   res.send({ data: "password reset requested" });
 });
-
 
 export default router;
