@@ -22,6 +22,27 @@
   </script>
   
   <Toaster />
+  
+  <nav>
+    <div class="logo"><img src={StudyLogo} alt="Logo"></div>
+    <div class="nav-links">
+      <Link to="/" style="color: white; text-decoration: none; background-color: #555; padding: 5px 10px; border-radius: 8px; font-weight: bold; display: inline-block;">Home</Link>
+      <Link to="/cards" style="color: white; text-decoration: none; background-color: #555; padding: 5px 10px; border-radius: 8px; font-weight: bold; display: inline-block;">Cards</Link>
+      <Link to="/chat" style="color: white; text-decoration: none; background-color: #555; padding: 5px 10px; border-radius: 8px; font-weight: bold; display: inline-block;">Chat</Link>
+    </div>
+    {#if $session}
+    <div class="auth-buttons">
+      <div class="session-username">
+      <Link to="/profile" style="color: rgb(0, 255, 0);">{$session.username}</Link></div>
+      <button on:click={handleLogout}>Logout</button>
+    </div>
+  {:else}
+    <div class="auth-buttons">
+      <Link to="/login" style="color: white; text-decoration: none; background-color: #555; padding: 5px 10px; border-radius: 8px; font-weight: bold; display: inline-block;">Login</Link>
+      <Link to="/signup" style="color: white; text-decoration: none; background-color: #555; padding: 5px 10px; border-radius: 8px; font-weight: bold; display: inline-block;">Signup</Link>
+    </div>
+  {/if}
+  </nav>
 
   <style>
     nav {
@@ -57,6 +78,8 @@
       gap: 30px;
       margin-left: 50px;
     }
+
+    
   
     .auth-buttons {
       display: flex;
@@ -86,24 +109,3 @@
       background-color: #777;
     }
   </style>
-  
-  <nav>
-    <div class="logo"><img src={StudyLogo} alt="Logo"></div>
-    <div class="nav-links">
-      <Link to="/">Home</Link>
-      <Link to="/cards">Cards</Link>
-      <Link to="/chat">Chat</Link>
-    </div>
-    {#if $session}
-    <div class="auth-buttons">
-      <div class="session-username">
-      <Link to="/profile" style="color: rgb(0, 255, 0);">{$session.username}</Link></div>
-      <button on:click={handleLogout}>Logout</button>
-    </div>
-  {:else}
-    <div class="auth-buttons">
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Signup</Link>
-    </div>
-  {/if}
-  </nav>

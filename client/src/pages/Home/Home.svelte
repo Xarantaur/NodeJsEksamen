@@ -7,7 +7,7 @@
   <div class="boxes-container">
     <div class="box">
       <h2>MTG Page</h2>
-      <p>Explore a collection of Magic: The Gathering cards, view details, and manage your collection.</p>
+      <p>Explore a collection of Magic: The Gathering cards and view details.</p>
     </div>
     <div class="box">
       <h2>Chatroom</h2>
