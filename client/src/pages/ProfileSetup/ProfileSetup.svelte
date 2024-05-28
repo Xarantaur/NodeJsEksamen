@@ -4,9 +4,14 @@
   import { fetchPatch } from "../../util/api";
   import toast, { Toaster } from "svelte-french-toast";
   import { loadSession } from "../../stores/sessionStore";
+  import { onMount } from "svelte";
 
   let username;
   let age;
+
+  onMount(() => {
+    toast.success("Successfully Signed up");
+  })
 
   async function handleProfileSetup(event) {
     event.preventDefault();

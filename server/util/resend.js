@@ -4,7 +4,6 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_APN_KEY);
 
 export async function welcomeEmail(email) {
-  console.log("sending email");
   await resend.emails.send({
     from: "Acme <onboarding@resend.dev>",
     to: "resendthismail@gmail.com",
