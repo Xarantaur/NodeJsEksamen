@@ -24,15 +24,20 @@ router.post("/api/cards", async (req, res) => {
   }
 });
 
-/* update kort navn virker ikke umiddelbart, check svelte, updater kortene baseret på id istedet for navn */
-router.patch("/api/cards", async (req, res) => {
-  const updateData = req.body;
+router.patch("/api/cards", async (req, res) => { 
+  const updateData = req.body
   try {
-    await updateCard(updateData.name, updateData);
-    res.send({ data: "card has been updated" });
-  } catch (error) {
-    res.send({ data: error.message });
-  }
+    const result = await updateCard(updateData);
+    if (result.matchedCount === 0) {
+      return res.status(404).send({ data: "Card not found" });
+    }
+    if(result.modifiedCount === 0 ) {
+     res.send({ data: "No changes made"})
+    } else{
+      res.send({ data: "Card has been updated" })}
+    } catch(error) { 
+      res.send({ data: error.message })
+    }
 });
 
 router.delete("/api/cards", async (req, res) => {

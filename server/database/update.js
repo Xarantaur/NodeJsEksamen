@@ -1,12 +1,13 @@
 import db from "./connection.js";
+import { ObjectId } from "mongodb";
 
 export const updateUser = async (email, updateData) => {
   const user = await db.users.updateOne({ email: email }, { $set: updateData });
-  console.log(user);
   return user;
 };
 
-export const updateCard = async (name, updateData) => {
-  const result = await db.mtg.updateOne({ name }, { $set: updateData });
+export const updateCard = async (updateData) => {
+  const {_id, ...updateFields} = updateData;
+  const result = await db.mtg.updateOne( {_id: new ObjectId(_id) }, { $set: updateFields });
   return result;
 };

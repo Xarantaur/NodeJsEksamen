@@ -26,7 +26,7 @@
 
       const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
       if (result.data === "User information updated") {
-        toast.success("Username Changed");
+        toast.success("User Updated")
         navigate("/profile");
         await loadSession();
       } else {

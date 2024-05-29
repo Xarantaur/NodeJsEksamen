@@ -45,7 +45,6 @@ export function fetchPatch(url, body) {
 export async function fetchSession(url) {
   let user;
   try {
-    console.log("fetching from: ", url)
     const response = await fetch(url, {
       credentials: "include",
     });

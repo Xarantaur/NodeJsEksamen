@@ -35,15 +35,13 @@ router.patch("/auth/users", authenticate, async (req, res) => {
   try {
     await updateUser(email, updateData);
     if (username) req.session.user.username = username;
-    console.log("userRouter updated session info: " + req.session.user);
     return res.send({ data: "User information updated" });
   } catch (error) {
-    console.log("error");
     return res.status(500).send({ data: "Internal Server Error" });
   }
 });
 
-/*  ikke implementeret i frontend, kan vi nå det ?   */
+
 router.delete("/auth/users/", authenticate, async (req, res) => {
   const { email } = req.body;
 

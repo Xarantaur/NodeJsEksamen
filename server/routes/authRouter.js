@@ -37,12 +37,10 @@ router.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    console.log("no email");
     return res.status(400).send({ data: "Missing Email" });
   }
 
   if (!password) {
-    console.log("no password");
     return res.status(400).send({ data: "Missing Password" });
   }
 
@@ -88,7 +86,6 @@ router.patch("/auth/changepassword", authenticate, async (req, res) => {
     await updateUser(email, updateData);
     await resetPasswordEmail(email, password);
   } catch (error) {
-    console.log("error");
     return res.status(500).send({ data: "Internal Server Error" });
   }
   res.send({ data: "password reset requested" });
