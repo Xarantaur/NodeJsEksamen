@@ -4,7 +4,7 @@ import { createUser } from "../database/create.js";
 import { hashPassword, generatePassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
-import authenticate from "../middleware/authMiddleware.js/index.js";
+import authenticate from "../middleware/authMiddleware.js";
 
 const router = Router();
 
@@ -92,3 +92,4 @@ router.patch("/auth/changepassword", authenticate, async (req, res) => {
 });
 
 export default router;
+

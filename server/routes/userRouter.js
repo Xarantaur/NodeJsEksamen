@@ -2,7 +2,7 @@ import { Router } from "express";
 import { updateUser } from "../database/update.js";
 import { deleteUser } from "../database/delete.js";
 import { hashPassword } from "../util/passwordUtil.js";
-import authenticate from "../middleware/authMiddleware.js/index.js";
+import authenticate from "../middleware/authMiddleware.js";
 
 const router = Router();
 

@@ -7,7 +7,7 @@
     import toast,{ Toaster } from "svelte-french-toast";
     import StudyLogo from "../../public/StudyLogo.png"
 
-    async function handleLogout(){
+    export async function handleLogout(){
 
       const response = await fetchPost($BASE_URL + "/auth/logout")
       if(response.data === "Logout Succesful"){

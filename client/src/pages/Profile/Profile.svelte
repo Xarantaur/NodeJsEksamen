@@ -1,39 +1,64 @@
 <script>
-    import { navigate } from "svelte-navigator";
-    import { BASE_URL } from "../../stores/generalStore";
-    import { fetchPatch, fetchPost } from "../../util/api";
-    import toast, { Toaster } from "svelte-french-toast";
-    import { loadSession, session } from "../../stores/sessionStore";
-    import { onMount } from "svelte";
+   import { navigate } from "svelte-navigator";
+import { BASE_URL } from "../../stores/generalStore";
+import { fetchDelete, fetchPatch, fetchPost } from "../../util/api";
+import toast, { Toaster } from "svelte-french-toast";
+import { loadSession, session } from "../../stores/sessionStore";
+import { onMount } from "svelte";
 
-    let username;
-    let age;
-    let password;
+let username;
+let age;
+let password;
 
-    onMount(async () => {
-      loadSession();
-    });
+onMount(async () => {
+  loadSession();
+});
 
-    async function handleChangeUser(event) {
-      event.preventDefault();
+async function handleChangeUser(event) {
+  event.preventDefault();
 
-      const bodyElements = {
-        email: $session.email,
-      };
-      if (username) bodyElements.username = username;
-      if (age) bodyElements.age = age;
-      if (password) bodyElements.password = password;
+  const bodyElements = {
+    email: $session.email,
+  };
+  if (username) bodyElements.username = username;
+  if (age) bodyElements.age = age;
+  if (password) bodyElements.password = password;
 
-      const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
-      if (result.data === "User information updated") {
-        toast.success("User Updated")
-        navigate("/profile");
-        await loadSession();
+  const result = await fetchPatch($BASE_URL + "/auth/users", bodyElements);
+  if (result.data === "User information updated") {
+    toast.success("User Updated");
+    navigate("/profile");
+    await loadSession();
+  } else {
+    toast.error("Could not Change Username at this time");
+  }
+}
+
+async function handleDeleteUser(event) {
+  event.preventDefault();
+
+  const bodyElements = {
+    email: $session.email,
+  };
+  try {
+    const result = await fetchDelete($BASE_URL + "/auth/users", bodyElements);
+
+    if (result.data === `${$session.email} Deleted Successfully`) {
+      toast.success(result.data);
+      const response = await fetchPost($BASE_URL + "/auth/logout");
+      if (response.data === "Logout Succesful") {
+        session.set(null);
+        navigate("/login");
       } else {
-        toast.error("Could not Change Username at this time");
+        toast.error(response.data ?? "Failed to Logout");
       }
+    } else {
+      toast.error("could not delete user at this point");
     }
-
+  } catch (error) {
+    toast.error(error.message);
+  }
+}
 </script>
 
 <Toaster />
@@ -57,8 +82,8 @@
         <input type="text" name="password" placeholder="password" bind:value={password} required>
         <input type="submit" value="Change">
         </form>
+        <button on:click={handleDeleteUser}>Delete User</button>
 </div>
-
 
 
 <style>
@@ -97,6 +122,20 @@
     }
   
     input[type="submit"]:hover {
+      background-color: #777;
+    }
+
+    button {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1em;
+    }
+  
+    button:hover {
       background-color: #777;
     }
   </style>
