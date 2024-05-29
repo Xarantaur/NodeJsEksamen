@@ -5,50 +5,45 @@ import { session } from "../../stores/sessionStore.js";
 import { messagesStore } from "../../stores/messageStore.js";
 import { get } from "svelte/store";
 
-let message = ""; // Variable to hold the value of the message to be sent
+let message = ""; 
 let socket;
 let userSession;
 
 onMount(() => {
-  // Subscribe to session store
   const unsubscribe = session.subscribe((value) => {
     userSession = value;
   });
 
-  // Connect to the Socket.IO server
-  socket = io("http://localhost:8080"); // Ensure the URL scheme is correct
+  socket = io("http://localhost:8080"); 
 
-  // Listen for incoming chat messages
   socket.on("chat message", (msg) => {
     messagesStore.update((messages) => {
       if (!messages.some((m) => m.id === msg.id)) {
-        // Check for duplication
-        return [...messages, msg]; // Update the store with the new message if not duplicate
+        return [...messages, msg];
       }
-      return messages; // Return the original messages if duplicate found
+      return messages;
     });
   });
 
-  // Disconnect the socket and unsubscribe from the store when the component is destroyed
+
   return () => {
     socket.disconnect();
     unsubscribe();
   };
 });
 
-// Function to send a message
 function sendMessage() {
   if (message.trim()) {
-    const { username, email } = get(session); // Get the current session user
+    const { username, email } = get(session); 
     const chatMessage = {
-      id: Date.now(), // Generate a unique ID for the message
+      id: Date.now(),
       text: message,
       username: username,
       email: email,
     };
-    socket.emit("chat message", chatMessage); // Emit the message object to the server
-    messagesStore.update((messages) => [...messages, chatMessage]); // Update the store with the sent message
-    message = ""; // Clear the message input
+    socket.emit("chat message", chatMessage); 
+    messagesStore.update((messages) => [...messages, chatMessage]);
+    message = "";
   }
 }
 </script>
@@ -73,11 +68,11 @@ function sendMessage() {
   .chat-container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 140px); /* Adjust according to navbar height */
+    height: calc(100vh - 140px); 
     padding: 20px;
     width: 800px;
-    margin: 0 auto; /* Center the chat container horizontally */
-    justify-content: space-between; /* Space out the elements within the container */
+    margin: 0 auto; 
+    justify-content: space-between; 
   }
 
   .messages {
@@ -97,8 +92,8 @@ function sendMessage() {
   .message-input {
     display: flex;
     gap: 10px;
-    width: 100%; /* Ensure the input field takes the full width */
-    justify-content: center; /* Center the input field horizontally */
+    width: 100%; 
+    justify-content: center; 
   }
 
   input {
@@ -107,8 +102,8 @@ function sendMessage() {
     font-size: 1em;
     border: 1px solid #ccc;
     border-radius: 5px;
-    color: black; /* Ensure the input text color is visible */
-    background-color: white; /* Ensure the background color contrasts with the text color */
+    color: black; 
+    background-color: white; 
   }
 
   button {
@@ -131,18 +126,18 @@ function sendMessage() {
     margin-bottom: 10px;
     max-width: 60%;
     min-width: 30%;
-    align-self: flex-start; /* Default alignment */
+    align-self: flex-start; 
   }
 
   .message.user {
     background-color: gray;
-    align-self: flex-end; /* Align user's messages to the right */
-    text-align: right; /* Ensure text inside the bubble is aligned to the right */
+    align-self: flex-end; 
+    text-align: right; 
   }
 
   .message.other {
     background-color: blue;
-    align-self: flex-start; /* Align other users' messages to the left */
-    text-align: left; /* Ensure text inside the bubble is aligned to the left */
+    align-self: flex-start; 
+    text-align: left; 
   }
 </style>

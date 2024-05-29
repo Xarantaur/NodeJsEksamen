@@ -1,24 +1,24 @@
 <script>
   import { onMount } from "svelte";
-import { BASE_URL } from "../../stores/generalStore";
-import { fetchDelete, fetchGet, fetchPatch, fetchPost } from "../../util/api";
-import toast from "svelte-french-toast";
+  import { BASE_URL } from "../../stores/generalStore";
+  import { fetchDelete, fetchGet, fetchPatch, fetchPost } from "../../util/api";
+  import toast from "svelte-french-toast";
 
-let cards = [];
-let error = null;
-let editingIndex = null;
-let showForm = false;
+  let cards = [];
+  let error = null;
+  let editingIndex = null;
+  let showForm = false;
 
-let newCard = {
-  name: "",
-  manacost: "",
-  type: "",
-  rarity: "",
-  set: "",
-  ability: "",
-  power: "",
-  toughness: "",
-};
+  let newCard = {
+    name: "",
+    manacost: "",
+    type: "",
+    rarity: "",
+    set: "",
+    ability: "",
+    power: "",
+    toughness: "",
+  };
 
 const fetchCards = async () => {
   try {
