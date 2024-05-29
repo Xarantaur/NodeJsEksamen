@@ -2,7 +2,7 @@ import { Router } from "express";
 import { updateUser } from "../database/update.js";
 import { deleteUser } from "../database/delete.js";
 import { hashPassword } from "../util/passwordUtil.js";
-import authenticate from "../middleware/authMiddleware";
+import authenticate from "../middleware/authMiddleware.js/index.js";
 
 const router = Router();
 
@@ -40,7 +40,6 @@ router.patch("/auth/users", authenticate, async (req, res) => {
     return res.status(500).send({ data: "Internal Server Error" });
   }
 });
-
 
 router.delete("/auth/users/", authenticate, async (req, res) => {
   const { email } = req.body;
