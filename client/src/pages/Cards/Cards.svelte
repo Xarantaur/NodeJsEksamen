@@ -1,5 +1,5 @@
-  <script>
-    import { onMount } from "svelte";
+<script>
+  import { onMount } from "svelte";
   import { BASE_URL } from "../../stores/generalStore";
   import { fetchDelete, fetchGet, fetchPatch, fetchPost } from "../../util/api";
   import toast from "svelte-french-toast";
