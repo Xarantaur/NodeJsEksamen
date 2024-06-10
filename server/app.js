@@ -4,6 +4,7 @@ import path from "path";
 import session from "express-session";
 import http from "http";
 import configureSocket from "./util/socketConfig.js";
+import helmet from "helmet";
 
 const app = express();
 app.use(express.static(path.resolve("../client/dist")));
@@ -12,9 +13,11 @@ app.use(express.json());
 export const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { secure: false },
 });
+
+app.use(helmet());
 
 app.use(sessionMiddleware);
 
@@ -34,9 +37,9 @@ app.use(userRouter);
 import mtgRouter from "./routes/mtgRouter.js";
 app.use(mtgRouter);
 
-app.get("/", (req, res) => {
-  res.send({ data: "velkommen" });
-});
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve("../client/dist/index.html"))
+})
 
 const PORT = process.env.PORT ?? 8080;
 server.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));

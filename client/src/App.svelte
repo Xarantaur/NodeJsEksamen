@@ -8,7 +8,6 @@
   import ProfileSetup from "./pages/ProfileSetup/ProfileSetup.svelte";
   import Profile from "./pages/Profile/Profile.svelte";
   import Changepassword from "./pages/ChangePassword/Changepassword.svelte";
-  import ForcePassword from "./pages/ForcePassword/ForcePassword.svelte"
   import { onMount } from "svelte";
   import { session, loadSession } from "./stores/sessionStore.js"
   import PrivateRoute from "./pages/PrivateRoute/PrivateRoute.svelte";
@@ -16,9 +15,6 @@
 
   onMount(() => {
     loadSession();
-    /* if($session.passchange === true){
-            navigate("/forcepassword")
-    } */
   })
   
   import Chat from "./pages/Chat/Chat.svelte"
@@ -44,9 +40,6 @@
     </Route>
     <Route path="/changepassword">
         <Changepassword/>
-    </Route>
-    <Route path="/forcepassword">
-        <ForcePassword/>
     </Route>
     <PrivateRoute path="/chat" let:location>
       <Chat/>

@@ -52,7 +52,6 @@ router.post("/auth/login", async (req, res) => {
     req.session.user = {
       email: user.email,
       username: user.username,
-      passchange: user.passchange,
     };
     res.send({ data: true });
   }
@@ -72,7 +71,7 @@ router.post("/auth/logout", authenticate, (req, res) => {
   }
 });
 
-router.patch("/auth/changepassword", authenticate, async (req, res) => {
+router.patch("/auth/changepassword", async (req, res) => {
   const { email } = req.body;
   const updateData = {};
 

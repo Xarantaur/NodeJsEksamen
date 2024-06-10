@@ -20,7 +20,7 @@ async function handleLogin(event) {
   const result = await fetchPost($BASE_URL + "/auth/login", bodyElements);
   if (result.data === true) {
     await loadSession();
-    navigate("/home");
+    navigate("/");
   } else {
     toast.error("Incorrect Email or Password");
   }

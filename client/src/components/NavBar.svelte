@@ -5,7 +5,7 @@
     import { BASE_URL } from "../stores/generalStore.js"
     import { fetchPost } from "../util/api.js";
     import toast,{ Toaster } from "svelte-french-toast";
-    import StudyLogo from "../../public/StudyLogo.png"
+    import StudyLogo from "../../public/StudyLogo.png";
 
     export async function handleLogout(){
 
