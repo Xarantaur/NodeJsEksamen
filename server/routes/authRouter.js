@@ -1,7 +1,7 @@
 import { Router } from "express";
 import login from "../util/loginUtil.js";
 import { createUser } from "../database/create.js";
-import { hashPassword, generatePassword } from "../util/passwordUtil.js";
+import { hashPassword, newPassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
 import authenticate from "../middleware/authMiddleware.js";
@@ -75,7 +75,7 @@ router.patch("/auth/changepassword", async (req, res) => {
   const { email } = req.body;
   const updateData = {};
 
-  const password = await generatePassword();
+  const password =  newPassword();
   let newHashedPassword = await hashPassword(password);
 
   updateData.password = newHashedPassword;

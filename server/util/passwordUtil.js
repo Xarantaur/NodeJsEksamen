@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import { generatePassword } from "secure-password-utilities"
+
 
 const saltRounds = 14;
 
@@ -8,7 +10,12 @@ export const hashPassword = async (plainTextPassword) =>
 export const comparePassword = async (plainTextPassword, password) =>
   bcrypt.compare(plainTextPassword, password);
 
-export async function generatePassword() {
+export function newPassword(){
+  const password = generatePassword(8)
+  return password
+}
+
+/* export async function generatePassword() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
 
@@ -19,3 +26,5 @@ export async function generatePassword() {
   }
   return result;
 }
+ */
+

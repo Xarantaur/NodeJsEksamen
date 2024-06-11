@@ -11,13 +11,13 @@
   import { onMount } from "svelte";
   import { session, loadSession } from "./stores/sessionStore.js"
   import PrivateRoute from "./pages/PrivateRoute/PrivateRoute.svelte";
-
+  import Chat from "./pages/Chat/Chat.svelte"
 
   onMount(() => {
     loadSession();
   })
   
-  import Chat from "./pages/Chat/Chat.svelte"
+  
 </script>
 
 <Router>
