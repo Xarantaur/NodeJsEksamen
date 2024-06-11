@@ -5,6 +5,7 @@ import { hashPassword, newPassword } from "../util/passwordUtil.js";
 import { resetPasswordEmail, welcomeEmail } from "../util/resend.js";
 import { updateUser } from "../database/update.js";
 import authenticate from "../middleware/authMiddleware.js";
+import { findUser } from "../database/read.js";
 
 const router = Router();
 
@@ -73,6 +74,11 @@ router.post("/auth/logout", authenticate, (req, res) => {
 
 router.patch("/auth/changepassword", async (req, res) => {
   const { email } = req.body;
+  const user = await findUser(email)
+  if(!user){
+   res.send({ data: "password reset requested" })
+   return
+  }
   const updateData = {};
 
   const password =  newPassword();
