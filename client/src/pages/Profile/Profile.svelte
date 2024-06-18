@@ -75,7 +75,7 @@ async function handleDeleteUser(event) {
         <input type="submit" value="Change">
         </form>
     <form on:submit={handleChangeUser}>
-        <input type="Age" name="Age" placeholder="Age" bind:value={age} required>
+        <input type="Age" name="Age" placeholder="age" bind:value={age} required>
         <input type="submit" value="Change">
         </form>
     <form on:submit={handleChangeUser}>
